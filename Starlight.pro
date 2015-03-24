@@ -15,8 +15,11 @@ QMAKE_CXXFLAGS += -std=c++11 \
     -pedantic-errors
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    o_sdo/sujetDObservation.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    o_sdo/observateur.h \
+    o_sdo/sujetDObservation.h
 
 FORMS    += mainwindow.ui
