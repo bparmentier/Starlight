@@ -1,5 +1,5 @@
 /*!
- * \file sujetDObservation.h
+ * \file sujetdobservation.h
  * \brief Définition de la classe SujetDObservation.
  */
 
@@ -11,10 +11,11 @@
 class Observateur;
 
 /*!
- * \brief Classe de base de tout "sujet d'observation".
+ * \brief Classe de base de tout "sujet d'observation"
  *
- * Classe dont dérive toute source d'événement (ou "sujet d'observation")
- * du modèle de conception "Observateur / SujetDObservation".
+ * Classe dont dérive toute source d'événement 
+ * (ou "sujet d'observation") du modèle de conception 
+ * "Observateur / SujetDObservation".
  *
  * \author GOF (?).
  * \sa Observateur.
@@ -29,16 +30,16 @@ public:
     virtual ~SujetDObservation() = default;
 
     /*!
-     * \brief Méthode permettant à un observateur de s'enregistrer comme
-     * écouteur du sujet d'observation.
+     * \brief Méthode permettant à un observateur de s'enregistrer 
+     * comme écouteur du sujet d'observation.
      *
      * \param obs un pointeur vers le candidat observateur.
      */
     virtual void attacher(Observateur * obs);
 
     /*!
-     * \brief Méthode permettant à un observateur de se retirer de la liste
-     * des écouteurs patentés du sujet d'observation.
+     * \brief Méthode permettant à un observateur de se retirer de la
+     * liste des écouteurs patentés du sujet d'observation.
      *
      * \param obs l'adresse de l'observateur désintéressé.
      */

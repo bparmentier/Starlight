@@ -14,12 +14,42 @@ TEMPLATE = app
 QMAKE_CXXFLAGS += -std=c++11 \
     -pedantic-errors
 
+LIBS += -L./staticlib/
+
+win32 {
+LIBS += -lstarlight
+}
+
+unix {
+LIBS += -lstarlight_lin64
+}
+
 SOURCES += main.cpp\
         mainwindow.cpp \
-    o_sdo/sujetDObservation.cpp
+    o_sdo/sujetDObservation.cpp \
+    starlight/level.cpp
 
 HEADERS  += mainwindow.h \
     o_sdo/observateur.h \
-    o_sdo/sujetDObservation.h
+    o_sdo/sujetDObservation.h \
+    geometry/circle.h \
+    geometry/line.h \
+    geometry/misc.h \
+    geometry/point2dd.h \
+    geometry/rectangle.h \
+    geometry/segment.h \
+    misc/approximativecomparison.h \
+    o_sdo/sujetdobservation.h \
+    starlight/bomb.h \
+    starlight/crystal.h \
+    starlight/lens.h \
+    starlight/level.h \
+    starlight/lightmodifier.h \
+    starlight/lightray.h \
+    starlight/mirror.h \
+    starlight/sourceoflight.h \
+    starlight/target.h \
+    starlight/wall.h \
+    starlight/wavelength.h
 
 FORMS    += mainwindow.ui
