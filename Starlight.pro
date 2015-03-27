@@ -25,13 +25,10 @@ LIBS += -lstarlight_lin64
 }
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    o_sdo/sujetDObservation.cpp \
+    mainwindow.cpp \
     starlight/level.cpp
 
 HEADERS  += mainwindow.h \
-    o_sdo/observateur.h \
-    o_sdo/sujetDObservation.h \
     geometry/circle.h \
     geometry/line.h \
     geometry/misc.h \
@@ -39,6 +36,7 @@ HEADERS  += mainwindow.h \
     geometry/rectangle.h \
     geometry/segment.h \
     misc/approximativecomparison.h \
+    o_sdo/observateur.h \
     o_sdo/sujetdobservation.h \
     starlight/bomb.h \
     starlight/crystal.h \
