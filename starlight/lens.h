@@ -17,12 +17,14 @@ class LightRay;
 
 class Lens : public LightModifier//, public SujetDObservation
 {
-    const Rectangle shape_;
+    Rectangle   shape_ {Rectangle{{0., 0.}, {1., 1.}}};
 
-    const int       minWavelength_;
-    const int       maxWavelength_;
+    int         minWavelength_ {1};
+    int         maxWavelength_ {std::numeric_limits<int>::max()};
 
   public:
+
+    Lens() = default;
 
     /*!
      * \brief Lens
@@ -67,6 +69,17 @@ class Lens : public LightModifier//, public SujetDObservation
          int minWavelength = 1);
 
     virtual ~Lens() = default;
+
+    /*!
+     * \brief checkInteraction
+     * \param ingoing
+     * \param contact
+     * \return true si le rayon ingoing frappe l'objet, false sinon
+     *
+     * \throw std::domain_error si la source d'ingoing est dans shape_
+     */
+    virtual bool checkInteraction(const LightRay & ingoing,
+                                  Point2Dd & contact);
 
     /*!
      * \brief interaction

@@ -15,10 +15,12 @@ class LightRay;
 
 class Bomb : public LightModifier
 {
-    const Circle    shape_;
-    bool            enlightened_ {false};
+    Circle  shape_ {Circle{{0., 0.}, 1.}};
+    bool    enlightened_ {false};
 
   public:
+
+    Bomb() = default;
 
     /*!
      * \brief Bomb
@@ -54,6 +56,17 @@ class Bomb : public LightModifier
     Bomb(double x, double y, double radius);
 
     virtual ~Bomb() = default;
+
+    /*!
+     * \brief checkInteraction
+     * \param ingoing
+     * \param contact
+     * \return true si le rayon ingoing frappe l'objet, false sinon
+     *
+     * \throw std::domain_error si la source d'ingoing est dans shape_
+     */
+    virtual bool checkInteraction(const LightRay & ingoing,
+                                  Point2Dd & contact);
 
     /*!
      * \brief interaction

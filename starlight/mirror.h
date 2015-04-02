@@ -5,6 +5,7 @@
 #include "../o_sdo/sujetdobservation.h"
 
 #include "../geometry/segment.h"
+#include "../geometry/rectangle.h"
 
 #include <ostream>
 
@@ -46,31 +47,25 @@ class LightRay;
  *   3 π / 2 < α < 2 π       | vers le bas et la gauche
  *
  */
-class Mirror : public LightModifier, public SujetDObservation
+class Mirror : public SujetDObservation, public LightModifier
 {
-    const Point2Dd  center_;
-    const double    length_2_; // length / 2
-    double          angle_;
+    Point2Dd    center_ {Point2Dd{0., 0.}};
+    double      length_2_ {1.}; // length / 2
+    double      angle_ {0.};
 
-    Segment         shape_;
+    Segment     shape_ {Segment{{ -1, 0}, {1, 0}}};
+    Rectangle   containingRectangle_ {Rectangle{{ -1, -1}, {1, 1}}};
+
+    double      lastAngle_ {angle_ - 1.}; // surtout != angle_
 
     // TODO (?) : dangle_
     // comme il s'agit d'une constante non issue de calculs,
     // j'estime qu'on peut s'en passer : le dangle_
     // par défaut de nvs::ApproximativeComparison fera l'affaire
 
-    /*!
-     * \brief hasOnReflectingSide
-     *
-     * \param point
-     *
-     * \return true si le point est situé du côté réfléchissant du
-     *         miroir, false s'il est de l'autre côté ou dans le
-     *         prolongement de sa tranche ou dans le miroir
-     */
-    bool hasInFrontOfReflectingSide(const Point2Dd & point);
-
   public:
+
+    Mirror() = default;
 
     /*!
      * \brief Mirror
@@ -105,6 +100,17 @@ class Mirror : public LightModifier, public SujetDObservation
     virtual ~Mirror() = default;
 
     /*!
+     * \brief checkInteraction
+     * \param ingoing
+     * \param contact
+     * \return true si le rayon ingoing frappe l'objet, false sinon
+     *
+     * \throw std::domain_error si la source d'ingoing est dans shape_
+     */
+    virtual bool checkInteraction(const LightRay & ingoing,
+                                  Point2Dd & contact);
+
+    /*!
      * \brief interaction
      *
      * \param ingoing
@@ -131,6 +137,7 @@ class Mirror : public LightModifier, public SujetDObservation
     inline double length_2() const;
     inline double angle() const;
     inline const Segment & shape() const;
+    inline const Rectangle & containingRectangle() const;
 
     /*!
      * \brief rotate
@@ -143,6 +150,17 @@ class Mirror : public LightModifier, public SujetDObservation
      * \sa SujetDObservation::notifierChangement()
      */
     void rotate(double angle);
+
+    /*!
+     * \brief hasOnReflectingSide
+     *
+     * \param point
+     *
+     * \return true si le point est situé du côté réfléchissant du
+     *         miroir, false s'il est de l'autre côté ou dans le
+     *         prolongement de sa tranche ou dans le miroir
+     */
+    bool hasInFrontOfReflectingSide(const Point2Dd & point) const;
 };
 
 // prototypes
@@ -169,6 +187,11 @@ inline double Mirror::angle() const
 inline const Segment & Mirror::shape() const
 {
     return shape_;
+}
+
+inline const Rectangle & Mirror::containingRectangle() const
+{
+    return containingRectangle_;
 }
 
 } // namespace nvs

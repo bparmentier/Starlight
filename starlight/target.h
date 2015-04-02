@@ -16,10 +16,12 @@ class LightRay;
 
 class Target : public LightModifier//, public SujetDObservation
 {
-    const Rectangle shape_; // c'est un carré => height == width
-    bool            enlightened_ {false};
+    Rectangle   shape_ {Rectangle{{0., 0.}, {1., 1.}}}; // c'est un carré => height == width
+    bool        enlightened_ {false};
 
   public:
+
+    Target() = default;
 
     /*!
      * \brief Target
@@ -55,6 +57,17 @@ class Target : public LightModifier//, public SujetDObservation
     Target(double x, double y, double width);
 
     virtual ~Target() = default;
+
+    /*!
+     * \brief checkInteraction
+     * \param ingoing
+     * \param contact
+     * \return true si le rayon ingoing frappe l'objet, false sinon
+     *
+     * \throw std::domain_error si la source d'ingoing est dans shape_
+     */
+    virtual bool checkInteraction(const LightRay & ingoing,
+                                  Point2Dd & contact);
 
     /*!
      * \brief interaction

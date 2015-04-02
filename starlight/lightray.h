@@ -120,6 +120,9 @@ class LightRay
 
     virtual ~LightRay() = default;
 
+    LightRay(const LightRay &) = default;
+    LightRay & operator=(const LightRay &) = default;
+
     inline const Point2Dd & emission() const;
 
     inline double propagation() const;
@@ -149,11 +152,27 @@ class LightRay
      * \return
      */
     bool contains(const Point2Dd & point) const;
+
+    // amis
+
+    friend bool operator==(const LightRay & lhs, const LightRay & rhs);
 };
 
 // prototypes
 
 std::ostream & operator<<(std::ostream & out, const LightRay & in);
+
+/*!
+ * \brief operator ==
+ *
+ * compare les points d'émission, les directions de propagation
+ * et les longueurs d'ondes
+ *
+ * \param lhs
+ * \param rhs
+ * \return
+ */
+bool operator==(const LightRay & lhs, const LightRay & rhs);
 
 // méthodes inline
 

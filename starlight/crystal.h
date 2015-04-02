@@ -15,10 +15,12 @@ class LightRay;
 
 class Crystal : public LightModifier
 {
-    const Circle    shape_;
-    const int       modifier_;
+    Circle  shape_ {Circle{{0., 0.}, 1.}};
+    int     modifier_ {0};
 
   public:
+
+    Crystal() = default;
 
     /*!
      * \brief Crystal
@@ -53,6 +55,17 @@ class Crystal : public LightModifier
     Crystal(double x, double y, double radius, int modifier);
 
     virtual ~Crystal() = default;
+
+    /*!
+     * \brief checkInteraction
+     * \param ingoing
+     * \param contact
+     * \return true si le rayon ingoing frappe l'objet, false sinon
+     *
+     * \throw std::domain_error si la source d'ingoing est dans shape_
+     */
+    virtual bool checkInteraction(const LightRay & ingoing,
+                                  Point2Dd & contact);
 
     /*!
      * \brief interaction

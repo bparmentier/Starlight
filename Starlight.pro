@@ -17,7 +17,7 @@ QMAKE_CXXFLAGS += -std=c++11 \
 LIBS += -L./staticlib/
 
 win32 {
-LIBS += -lstarlight
+LIBS += -lstarlight_win32
 }
 
 unix {

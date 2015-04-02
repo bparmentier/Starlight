@@ -4,6 +4,8 @@
 #include "lightmodifier.h"
 #include "../o_sdo/sujetdobservation.h"
 
+#include "wavelength.h"
+
 #include "../geometry/rectangle.h"
 
 #include <ostream>
@@ -20,12 +22,12 @@ class LightRay;
  * émission depuis le centre de la source
  *
  */
-class SourceOfLight : public LightModifier, public SujetDObservation
+class SourceOfLight : public SujetDObservation, public LightModifier
 {
-    const Rectangle shape_; // c'est un carré => height == width
-    const double    emissionAngle_;
-    const int       wavelength_;
-    bool            on_;
+    Rectangle   shape_ {Rectangle{{0., 0.}, {1., 1.}}}; // c'est un carré => height == width
+    double      emissionAngle_ {0.};
+    int         wavelength_ {DFT_WL};
+    bool        on_ {false};
 
     // TODO (?) : demissionAngle_
     // comme il s'agit d'une constante non issue de calculs,
@@ -33,6 +35,8 @@ class SourceOfLight : public LightModifier, public SujetDObservation
     // par défaut de nvs::ApproximativeComparison fera l'affaire
 
   public:
+
+    SourceOfLight() = default;
 
     /*!
      * \brief SourceOfLight
@@ -75,6 +79,17 @@ class SourceOfLight : public LightModifier, public SujetDObservation
                   double emissionAngle, int wavelength, bool on = false);
 
     virtual ~SourceOfLight() = default;
+
+    /*!
+     * \brief checkInteraction
+     * \param ingoing
+     * \param contact
+     * \return true si le rayon ingoing frappe l'objet, false sinon
+     *
+     * \throw std::domain_error si la source d'ingoing est dans shape_
+     */
+    virtual bool checkInteraction(const LightRay & ingoing,
+                                  Point2Dd & contact);
 
     /*!
      * \brief interaction

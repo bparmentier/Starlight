@@ -61,7 +61,7 @@ class Level : public Observateur, public SujetDObservation
     std::vector<std::pair<Segment,int>>    boundedRays_;
 
     /*!
-     * \brief updateBoundedRays
+     * \brief updateBoundedRays_KO
      *
      * \throw std::logic_error si la source est éteinte
      */

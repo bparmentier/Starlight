@@ -47,6 +47,8 @@ class Point2Dd
 
     virtual ~Point2Dd() = default;
 
+    Point2Dd & operator=(const Point2Dd &) = default;
+
     /*!
      * \brief Point2Dd
      *

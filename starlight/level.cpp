@@ -87,164 +87,114 @@ void Level::updateBoundedRays()
 
     LightRay ingoing {source_.lightRay()};
     Point2Dd contact;
-    LightRay outgoing;
 
     do
     {
-        vector<tuple<Point2Dd, LightRay>> nearestTouchedObjects;
-        vector<tuple<Point2Dd, LightRay>> touchedObjects;
-
-        auto tuplecompare = [ingoing](const tuple<Point2Dd, LightRay> & lhs,
-                                      const tuple<Point2Dd, LightRay> & rhs)
-        {
-            return ingoing.emission().distance(get<0>(lhs)) <
-                   ingoing.emission().distance(get<0>(rhs));
-        };
+        vector<tuple<LightModifier *, Point2Dd>> touchedObjects {};
 
         // source touchée ?
         if (!source_.shape().contains(ingoing.emission()))
         {
-            if (source_.interaction(ingoing, contact, outgoing))
+            if (source_.checkInteraction(ingoing, contact))
             {
-                nearestTouchedObjects.emplace_back(make_tuple(contact, outgoing));
+                touchedObjects.emplace_back(make_tuple(&source_, contact));
             }
         }
 
         // cible touchée ?
-        if (target_.interaction(ingoing, contact, outgoing))
+        if (target_.checkInteraction(ingoing, contact))
         {
-            nearestTouchedObjects.emplace_back(make_tuple(contact, outgoing));
+            touchedObjects.emplace_back(make_tuple(&target_, contact));
         }
 
         // murs touchés ?
         for (Wall & e : walls_)
         {
-            if (e.interaction(ingoing, contact, outgoing))
+            if (e.checkInteraction(ingoing, contact))
             {
-                touchedObjects.emplace_back(make_tuple(contact, outgoing));
+                touchedObjects.emplace_back(make_tuple(&e, contact));
             }
         }
-        // le mur touché est celui le plus proche de la source
-        // rem. : il y a toujours un mur touché : attention, ce
-        //        n'est pas vrai pour les autres éléments du décor !
-        auto it = min_element(begin(touchedObjects), end(touchedObjects),
-                              tuplecompare);
-        // ici it pointe sur le mur touché le plus proche du point
-        // d'émission
-        nearestTouchedObjects.emplace_back(*it);
 
         // miroirs touchés ?
-        touchedObjects.clear();
         for (Mirror & e : mirrors_)
         {
             if (!e.shape().contains(ingoing.emission()))
             {
-                if (e.interaction(ingoing, contact, outgoing))
+                if (e.checkInteraction(ingoing, contact))
                 {
-                    touchedObjects.emplace_back(make_tuple(contact, outgoing));
+                    touchedObjects.emplace_back(make_tuple(&e, contact));
                 }
             }
         }
-        // le miroir touché est celui le plus proche de la source
-        // rem. : il n'y a pas toujours un miroir touché !
-        if (!touchedObjects.empty())
-        {
-            it = min_element(begin(touchedObjects), end(touchedObjects),
-                             tuplecompare);
-            // ici it pointe sur le miroir touché le plus proche du point
-            // d'émission
-            nearestTouchedObjects.emplace_back(*it);
-        }
 
         // lentilles touchées ?
-        touchedObjects.clear();
         for (Lens & e : lenses_)
         {
             if (!e.shape().contains(ingoing.emission()))
             {
-                if (e.interaction(ingoing, contact, outgoing))
+                if (e.checkInteraction(ingoing, contact))
                 {
-                    touchedObjects.emplace_back(make_tuple(contact, outgoing));
+                    touchedObjects.emplace_back(make_tuple(&e, contact));
                 }
             }
         }
-        // la lentille touchée est celle la plus proche de la source
-        // rem. : il n'y a pas toujours une lentille touchée !
-        if (!touchedObjects.empty())
-        {
-            it = min_element(begin(touchedObjects), end(touchedObjects),
-                             tuplecompare);
-            // ici it pointe sur la lentille touchée la plus proche du point
-            // d'émission
-            nearestTouchedObjects.emplace_back(*it);
-        }
 
         // cristaux touchés ?
-        touchedObjects.clear();
         for (Crystal & e : crystals_)
         {
             if (!e.shape().contains(ingoing.emission()))
             {
-                if (e.interaction(ingoing, contact, outgoing))
+                if (e.checkInteraction(ingoing, contact))
                 {
-                    touchedObjects.emplace_back(make_tuple(contact, outgoing));
+                    touchedObjects.emplace_back(make_tuple(&e, contact));
                 }
             }
         }
-        // le cristal touché est celui le plus proche de la source
-        // rem. : il n'y a pas toujours un cristal touché !
-        if (!touchedObjects.empty())
-        {
-            it = min_element(begin(touchedObjects), end(touchedObjects),
-                             tuplecompare);
-            // ici it pointe sur le cristal touché le plus proche du point
-            // d'émission
-            nearestTouchedObjects.emplace_back(*it);
-        }
 
         // bombes touchées ?
-        touchedObjects.clear();
         for (Bomb & e : bombs_)
         {
-            if (e.interaction(ingoing, contact, outgoing))
+            if (e.checkInteraction(ingoing, contact))
             {
-                touchedObjects.emplace_back(make_tuple(contact, outgoing));
+                touchedObjects.emplace_back(make_tuple(&e, contact));
             }
         }
-        // la bombe touchée est celle la plus proche de la source
-        // rem. : il n'y a pas toujours une bombe touchée !
-        if (!touchedObjects.empty())
+
+        // il y a toujours au moins un mur touché
+        // objet touché le plus proche ?
+
+        auto it = min_element(begin(touchedObjects), end(touchedObjects),
+                              [ingoing](const tuple<LightModifier *, Point2Dd> & lhs,
+                                        const tuple<LightModifier *, Point2Dd> & rhs)
         {
-            it = min_element(begin(touchedObjects), end(touchedObjects),
-                             tuplecompare);
-            // ici it pointe sur la bombe touchée la plus proche du point
-            // d'émission
-            nearestTouchedObjects.emplace_back(*it);
-        }
+            return ingoing.emission().distance(get<1>(lhs)) <
+                   ingoing.emission().distance(get<1>(rhs));
+        });
 
-        // ici tous les objets ont été passés en revue
-        // il faut déterminer le plus proche des plus proches
+        // ici on calcule l'interaction entre le rayon et l'objet le
+        // plus proche
 
-        it = min_element(begin(nearestTouchedObjects),
-                         end(nearestTouchedObjects), tuplecompare);
+        LightRay outgoing;
 
-        // ici it pointe sur le tuple<Point2Dd, LightRay> de contact
-        // le plus proche de la source
+        get<0>(*it)->interaction(ingoing, contact, outgoing);
 
         // ajout du rayon à l'ensemble des rayons
-        boundedRays_.emplace_back(make_pair(Segment {ingoing.emission(), get<0>(*it)},
+        boundedRays_.emplace_back(make_pair(Segment {ingoing.emission(), contact},
                                             ingoing.wavelength()));
 
         // on prépare la suite
-        ingoing = get<1>(*it);
+        ingoing = outgoing;
 
         // ça continue ou arrêt sur surface absorbante ?
     }
     while (ingoing.wavelength() > 0);
+    // NOTE : il est possible d'avoir une boucle sans fin...
+    // TODO : régler ce problème...
 }
 
 
-void Level::rafraichir(SujetDObservation * sdo)
+void Level::rafraichir(SujetDObservation *)
 {
     // TODO : optimiser selon le miroir qui a bougé...
     boundedRays_.clear();

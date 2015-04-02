@@ -15,9 +15,11 @@ class LightRay;
 
 class Wall : public LightModifier
 {
-    const Segment shape_;
+    Segment shape_ {Segment{{0., 0.}, {1., 1.}}};
 
   public:
+
+    Wall() = default;
 
     /*!
      * \brief Wall
@@ -55,6 +57,17 @@ class Wall : public LightModifier
     Wall(double p1x, double p1y, double p2x, double p2y);
 
     virtual ~Wall() = default;
+
+    /*!
+     * \brief checkInteraction
+     * \param ingoing
+     * \param contact
+     * \return true si le rayon ingoing frappe l'objet, false sinon
+     *
+     * \throw std::domain_error si la source d'ingoing est dans shape_
+     */
+    virtual bool checkInteraction(const LightRay & ingoing,
+                                  Point2Dd & contact);
 
     /*!
      * \brief interaction
