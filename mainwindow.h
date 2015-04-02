@@ -15,8 +15,13 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void openFile();
+
 private:
     Ui::MainWindow *ui;
+
+    void connectSignals();
 };
 
 #endif // MAINWINDOW_H
