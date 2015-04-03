@@ -11,12 +11,12 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Starlight
 TEMPLATE = app
 
-QMAKE_CXXFLAGS += -std=c++11 \
-    -pedantic-errors
+CONFIG += c++11
 
 LIBS += -L./staticlib/
 
 win32 {
+QMAKE_CXXFLAGS += -U__STRICT_ANSI__
 LIBS += -lstarlight_win32
 }
 
@@ -25,10 +25,15 @@ LIBS += -lstarlight_lin64
 }
 
 SOURCES += main.cpp\
-    mainwindow.cpp \
-    starlight/level.cpp
+        mainwindowstarlight.cpp \
+    dialogconfig.cpp \
+    starlightgame.cpp \
+    starlight/level.cpp \
+    observateurstarlight.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += mainwindowstarlight.h \
+    dialogconfig.h \
+    starlightgame.h \
     geometry/circle.h \
     geometry/line.h \
     geometry/misc.h \
@@ -48,6 +53,8 @@ HEADERS  += mainwindow.h \
     starlight/sourceoflight.h \
     starlight/target.h \
     starlight/wall.h \
-    starlight/wavelength.h
+    starlight/wavelength.h \
+    observateurstarlight.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindowstarlight.ui \
+    dialogconfig.ui

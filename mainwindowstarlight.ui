@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindowStarlight</class>
+ <widget class="QMainWindow" name="MainWindowStarlight">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>497</width>
+    <height>344</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Starlight</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QGraphicsView" name="graphicsView"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>497</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_Jeu">
+    <property name="title">
+     <string>&amp;Jeu</string>
+    </property>
+    <addaction name="action_Nouveau"/>
+    <addaction name="action_Fermer"/>
+    <addaction name="action_Quitter"/>
+   </widget>
+   <addaction name="menu_Jeu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <action name="action_Nouveau">
+   <property name="text">
+    <string>&amp;Nouveau</string>
+   </property>
+  </action>
+  <action name="action_Fermer">
+   <property name="text">
+    <string>&amp;Fermer</string>
+   </property>
+  </action>
+  <action name="action_Quitter">
+   <property name="text">
+    <string>&amp;Quitter</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
