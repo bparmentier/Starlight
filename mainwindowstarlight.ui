@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>497</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Jeu">
@@ -48,15 +48,24 @@
    <property name="text">
     <string>&amp;Nouveau</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="action_Fermer">
    <property name="text">
     <string>&amp;Fermer</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
   </action>
   <action name="action_Quitter">
    <property name="text">
     <string>&amp;Quitter</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>

@@ -9,6 +9,7 @@ MainWindowStarlight::MainWindowStarlight(QWidget *parent) :
 {
     ui->setupUi(this);
     m_action_aide = ui->menuBar->addAction(tr("&Aide"));
+    m_action_aide->setShortcut(QString("CTRL+A"));
     this->connexion();
     ui->centralWidget->setDisabled(true);
 }
@@ -27,14 +28,14 @@ MainWindowStarlight::~MainWindowStarlight()
 
 void MainWindowStarlight::connexion()
 {
-    ui->action_Nouveau->setShortcut(QString("CTRL+N"));
-    ui->action_Fermer->setShortcut(QString("CTRL+F"));
-    ui->action_Quitter->setShortcut(QString("CTRL+Q"));
-    m_action_aide->setShortcut(QString("CTRL+A"));
-    connect(ui->action_Quitter, &QAction::triggered,this,&QCoreApplication::quit);
-    connect(ui->action_Nouveau, SIGNAL(triggered()), this, SLOT(creerPartie()));
-    connect(ui->action_Fermer, SIGNAL(triggered()), this, SLOT(fermerPartie()));
-    connect(m_action_aide, SIGNAL(triggered()), this, SLOT(aide()));
+    connect(ui->action_Quitter, &QAction::triggered,
+            this, &QCoreApplication::quit);
+    connect(ui->action_Nouveau, &QAction::triggered,
+            this, &MainWindowStarlight::creerPartie);
+    connect(ui->action_Fermer, &QAction::triggered,
+            this, &MainWindowStarlight::fermerPartie);
+    connect(m_action_aide, &QAction::triggered,
+            this, &MainWindowStarlight::aide);
 }
 
 void MainWindowStarlight::creerPartie()
@@ -43,8 +44,11 @@ void MainWindowStarlight::creerPartie()
         if(m_jeu->getLevel()->won() || m_jeu->getLevel()->lost()){
             fermerPartie();
         }else{
-            QMessageBox::StandardButton reponse = QMessageBox::question(this, "new game",
-                "Êtes-vous sûr de vouloir commencer une nouvelle partie?", QMessageBox::Yes|QMessageBox::No);
+            QMessageBox::StandardButton reponse = QMessageBox::question(
+                        this,
+                        "Nouvelle partie",
+                        "Êtes-vous sûr de vouloir commencer une nouvelle partie ?",
+                        QMessageBox::Yes|QMessageBox::No);
             if (reponse == QMessageBox::Yes) {
                 fermerPartie();
             } else {
@@ -65,7 +69,7 @@ void MainWindowStarlight::creerPartie()
         ui->graphicsView->show();
         ui->centralWidget->setEnabled(true);
     }catch(std::string err){
-        QMessageBox::information(this,"Error !", err.c_str());
+        QMessageBox::information(this, "Erreur !", err.c_str());
     }
 }
 
@@ -81,16 +85,22 @@ void MainWindowStarlight::fermerPartie()
 
 void MainWindowStarlight::aide()
 {
-    QString msg {"<html><center><p><b>Aide starlight</b></p></center>"
-                 "<p>Starlight est un jeu de refelxion de lumière dont le but est de d'amener \n"
-                 "un rayon d'une source de départ à une source de destination.</p>"
-                 "<p>Information sur le jeu :</p>"
-                 "<ul><li>Éléments du jeu : source, destination, mirroir, mur, lentille, cristale et bombe.</li>"
-                 "<li>Seul les miroirs peuvent etre tourner.</li>"
-                 "<li>Les crystaux modifient la longueur d'onde du rayon.</li>"
-                 "<li>Les lentilles controle le passage d'un rayon sur base de sa longueur d'onde.</li>"
-                 "<li>Les bombes font perdre la partie dés que le rayon en touche.</li></ul></br>"
-                 "<p>Veillez à ce que le fichier .map ne soit pas erronées.</p></html>"};
+    QString msg {
+        "<p>Starlight est un petit jeu en deux dimensions se jouant sur une carte "
+        "rectangulaire, comportant une source de lumière, émettant un rayon "
+        "rectiligne. Le but du jeu est d'atteindre une cible avec ledit rayon, "
+        "en évitant les obstacles via notamment des miroirs réléchissant la "
+        "lumière.</p>"
+        "<p>Les éléments du jeu sont les suivants : source, destination, "
+        "mirroirs, murs, lentilles, cristaux et bombes.</p>"
+        "<ul>"
+        "<li>Seuls les miroirs peuvent être tournés&nbsp;;</li>"
+        "<li>Les crystaux modifient la longueur d'onde du rayon&nbsp;;</li>"
+        "<li>Les lentilles contrôlent le passage d'un rayon sur base de sa "
+        "longueur d'onde&nbsp;;</li>"
+        "<li>Dès que le rayon touche une bombe, la partie est perdue.</li>"
+        "</ul>"
+        "<p>Veillez à ce que le fichier .map ne soit pas erroné.</p></html>"};
     QMessageBox::information(this, "Aide", msg);
 }
 

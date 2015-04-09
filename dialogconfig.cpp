@@ -6,7 +6,7 @@ DialogConfig::DialogConfig(QWidget *parent) :
     QDialog(parent), ui(new Ui::DialogConfig)
 {
     ui->setupUi(this);
-    connect(ui->navig, SIGNAL(clicked()), this, SLOT(naviguer()));
+    connect(ui->navig, &QPushButton::clicked, this, &DialogConfig::naviguer);
 }
 
 DialogConfig::~DialogConfig()
