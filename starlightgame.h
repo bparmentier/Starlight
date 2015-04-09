@@ -12,9 +12,28 @@ class StarlightGame
 
 public:
 
-    StarlightGame(const std::string & fileName);
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
+    StarlightGame(const std::string & nomFichier);
+
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
     ~StarlightGame();
-    void readMap(const std::string & fileName);
+
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
+    void lireMap(const std::string & nomFichier);
+
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
     nvs::Level * getLevel();
 };
 

@@ -9,27 +9,58 @@ namespace Ui {
 class MainWindowStarlight;
 }
 
-class MainWindow : public QMainWindow
+class MainWindowStarlight : public QMainWindow
 {
     Q_OBJECT
 
 private:
-    Ui::MainWindowStarlight *ui;
-    QAction *action_aide = nullptr;
-    StarlightGame *jeu = nullptr;
-    ObservateurStarlight *obserJeu = nullptr;
+    Ui::MainWindowStarlight * ui = nullptr;
+    QAction * m_action_aide = nullptr;
+    StarlightGame * m_jeu = nullptr;
+    ObservateurStarlight * m_obserJeu = nullptr;
 
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
+    explicit MainWindowStarlight(QWidget * parent = 0);
+
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
+    ~MainWindowStarlight();
+    Ui::MainWindowStarlight * getUi() const;
 
 private:
+
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
     void connexion();
 
 private slots:
+
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
     void creerPartie();
+
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
     void fermerPartie();
+
+    /*!
+     * \brief StarlightGame
+     * \param nomFichier
+     */
     void aide();
 };
 

@@ -1,10 +1,11 @@
 #include "mainwindowstarlight.h"
 #include <QApplication>
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    MainWindowStarlight w;
     w.show();
 
     return a.exec();

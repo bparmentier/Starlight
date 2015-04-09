@@ -3,8 +3,7 @@
 #include <qfiledialog.h>
 
 DialogConfig::DialogConfig(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogConfig)
+    QDialog(parent), ui(new Ui::DialogConfig)
 {
     ui->setupUi(this);
     connect(ui->navig, SIGNAL(clicked()), this, SLOT(naviguer()));
@@ -13,18 +12,21 @@ DialogConfig::DialogConfig(QWidget *parent) :
 DialogConfig::~DialogConfig()
 {
     delete ui;
+    ui = nullptr;
 }
 
-QString DialogConfig::getNomFichier(){
-    return nomFichier_;
+QString DialogConfig::getNomFichier()
+{
+    return m_nomFichier;
 }
 
-void DialogConfig::naviguer(){
-    nomFichier_ = QFileDialog::getOpenFileName(this,"Choisir un fichier .map");
-    if(nomFichier_ == nullptr){
+void DialogConfig::naviguer()
+{
+    m_nomFichier = QFileDialog::getOpenFileName(this,"Choisir un fichier .map");
+    if(m_nomFichier == nullptr){
         ui->fileName->setText("(rien)");
     }else{
-        QFileInfo infoFile {nomFichier_};
-        ui->fileName->setText(infoFile.fileName());
+        QFileInfo infoFichier {m_nomFichier};
+        ui->fileName->setText(infoFichier.fileName());
     }
 }

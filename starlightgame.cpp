@@ -4,9 +4,9 @@
 
 using namespace std;
 
-StarlightGame::StarlightGame(const string & fileName)
+StarlightGame::StarlightGame(const string & nomFichier)
 {
-    readMap(fileName);
+    lireMap(nomFichier);
 }
 
 StarlightGame::~StarlightGame()
@@ -15,66 +15,67 @@ StarlightGame::~StarlightGame()
     m_level = nullptr;
 }
 
-void StarlightGame::readMap(const string & fileName){
-    ifstream file{fileName};
-    char component;
-    int x, y, width, height, widthMap, heightMap, length, edge,
-            wavelength, rad, mod, wlmin, wlmax, x1, y1, x2, y2;
+void StarlightGame::lireMap(const string & nomFichier)
+{
+    ifstream fichier{nomFichier};
+    char element;
+    int x, y, largeur, hauteur, largeurMap, hauteurMap, longueur, bord,
+            longueur_onde, rad, mod, lomin, lomax, x1, y1, x2, y2;
     double alpha;
 
-    vector<nvs::Crystal> tabCrystal;
-    vector<nvs::Wall> tabWalls;
-    vector<nvs::Lens> tabLens;
-    vector<nvs::Mirror> tabMirrors;
-    vector<nvs::Bomb> tabBombs;
+    vector<nvs::Crystal> tabCristaux;
+    vector<nvs::Wall> tabMurs;
+    vector<nvs::Lens> tabLentilles;
+    vector<nvs::Mirror> tabMiroires;
+    vector<nvs::Bomb> tabBombes;
     nvs::SourceOfLight source;
     nvs::Target destination;
 
-    if (!file.is_open()) {
+    if (!fichier.is_open()) {
         string msg { "Fichier : \"" };
-        msg += fileName;
+        msg += nomFichier;
         msg += "\" introuvable.";
         throw msg;
     }
 
     /* first line: width and height */
-    file >> widthMap >> heightMap;
+    fichier >> largeurMap >> hauteurMap;
 
     /* map components */
-    while (file >> component) {
-        switch (component) {
+    while (fichier >> element) {
+        switch (element) {
         case 'S':
-            file >> x >> y >> edge >> alpha >> wavelength;
-            source = nvs::SourceOfLight {x,y,edge,alpha,wavelength};
+            fichier >> x >> y >> bord >> alpha >> longueur_onde;
+            source = nvs::SourceOfLight {x,y,bord,alpha,longueur_onde};
             break;
         case 'D':
-            file >> x >> y >> edge;
-            destination = nvs::Target {x,y,edge};
+            fichier >> x >> y >> bord;
+            destination = nvs::Target {x,y,bord};
             break;
         case 'C':
-            file >> x >> y >> rad >> mod;
-            tabCrystal.push_back(nvs::Crystal{x,y,rad,mod});
+            fichier >> x >> y >> rad >> mod;
+            tabCristaux.push_back(nvs::Crystal{x,y,rad,mod});
             break;
         case 'L':
-            file >> x >> y >> width >> height >> wlmin >> wlmax;
-            tabLens.push_back(nvs::Lens{x,y,width,height,wlmax,wlmin});
+            fichier >> x >> y >> largeur >> hauteur >> lomin >> lomax;
+            tabLentilles.push_back(nvs::Lens{x,y,largeur,hauteur,lomax,lomin});
             break;
         case 'W':
-            file >> x1 >> y1 >> x2 >> y2;
-            tabWalls.push_back(nvs::Wall{x1,y1,x2,y2});
+            fichier >> x1 >> y1 >> x2 >> y2;
+            tabMurs.push_back(nvs::Wall{x1,y1,x2,y2});
             break;
         case 'N':
-            file >> x >> y >> rad;
-            tabBombs.push_back(nvs::Bomb{x,y,rad});
+            fichier >> x >> y >> rad;
+            tabBombes.push_back(nvs::Bomb{x,y,rad});
             break;
         case 'M':
-            file >> x >> y >> length >> alpha;
-            tabMirrors.push_back(nvs::Mirror{x,y,length,alpha});
+            fichier >> x >> y >> longueur >> alpha;
+            tabMiroires.push_back(nvs::Mirror{x,y,longueur,alpha});
             break;
         }
     }
-    m_level = new nvs::Level{widthMap,heightMap,source,destination,
-            tabWalls,tabMirrors,tabLens,tabCrystal,tabBombs};
+    m_level = new nvs::Level{largeurMap,hauteurMap,source,destination,
+            tabMurs,tabMiroires,tabLentilles,tabCristaux,tabBombes};
 }
 
 nvs::Level * StarlightGame::getLevel(){
