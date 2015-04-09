@@ -29,7 +29,7 @@ MainWindowStarlight::~MainWindowStarlight()
 void MainWindowStarlight::connexion()
 {
     connect(ui->action_Quitter, &QAction::triggered,
-            this, &QCoreApplication::quit);
+            &QCoreApplication::quit);
     connect(ui->action_Nouveau, &QAction::triggered,
             this, &MainWindowStarlight::creerPartie);
     connect(ui->action_Fermer, &QAction::triggered,
