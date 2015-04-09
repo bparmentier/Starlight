@@ -19,9 +19,8 @@ void StarlightGame::lireMap(const string & nomFichier)
 {
     ifstream fichier{nomFichier};
     char element;
-    int x, y, largeur, hauteur, largeurMap, hauteurMap, longueur, bord,
-            longueur_onde, rad, mod, lomin, lomax, x1, y1, x2, y2;
-    double alpha;
+    int largeurMap, hauteurMap, longueur_onde, mod, lomin, lomax;
+    double x, y, x1, x2, y1, y2, largeur, hauteur, longueur, bord, rad, alpha;
 
     vector<nvs::Crystal> tabCristaux;
     vector<nvs::Wall> tabMurs;
