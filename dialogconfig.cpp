@@ -22,11 +22,13 @@ QString DialogConfig::getNomFichier()
 
 void DialogConfig::naviguer()
 {
-    m_nomFichier = QFileDialog::getOpenFileName(this,"Choisir un fichier .map");
-    if(m_nomFichier == nullptr){
-        ui->fileName->setText("(rien)");
-    }else{
-        QFileInfo infoFichier {m_nomFichier};
+    QString nomFichier = QFileDialog::getOpenFileName(this,
+                                                tr("Choisir un fichier"),
+                                                ".",
+                                                tr("Niveau (*.map *.mapl);;Tous les fichiers (*)"));
+    if (!nomFichier.isEmpty()) {
+        QFileInfo infoFichier {nomFichier};
         ui->fileName->setText(infoFichier.fileName());
+        m_nomFichier = nomFichier;
     }
 }
