@@ -14,10 +14,10 @@
 
 class ObservateurStarlight : public QGraphicsScene, public Observateur
 {
-    nvs::Level * m_niveau = nullptr;
-    QGraphicsRectItem * m_source = nullptr;
-    QGraphicsRectItem * m_destination = nullptr;
-    std::vector<std::pair<QGraphicsLineItem *,nvs::Mirror *>> m_tabMiroires;
+    nvs::Level *m_niveau = nullptr;
+    QGraphicsRectItem *m_source = nullptr;
+    QGraphicsRectItem *m_destination = nullptr;
+    std::vector<std::pair<QGraphicsLineItem *, nvs::Mirror *>> m_tabMiroires;
     std::vector<QGraphicsLineItem *> m_tabRayons;
 
 public:
@@ -26,7 +26,7 @@ public:
      * \brief StarlightGame
      * \param nomFichier
      */
-    ObservateurStarlight(nvs::Level * niveau, QWidget * parent = 0);
+    ObservateurStarlight(nvs::Level *niveau, QWidget *parent = 0);
 
     /*!
      * \brief StarlightGame
@@ -38,7 +38,7 @@ public:
      * \brief StarlightGame
      * \param nomFichier
      */
-    void rafraichir(SujetDObservation * sdo);
+    void rafraichir(SujetDObservation *sdo);
 
 private:
 
@@ -94,7 +94,7 @@ private:
      * \brief StarlightGame
      * \param nomFichier
      */
-    int chercherElement(QGraphicsLineItem * element);
+    int chercherElement(QGraphicsLineItem *element);
 
     /*!
      * \brief StarlightGame
@@ -106,7 +106,7 @@ private:
      * \brief StarlightGame
      * \param nomFichier
      */
-    void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
     /*!
      * \brief StarlightGame

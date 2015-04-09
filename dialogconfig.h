@@ -32,7 +32,7 @@ public:
     QString getNomFichier();
 
 private:
-    Ui::DialogConfig * ui;
+    Ui::DialogConfig *ui;
     QString m_nomFichier;
 
 private slots:

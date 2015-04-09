@@ -8,7 +8,7 @@
 
 class StarlightGame
 {
-    nvs::Level * m_level;
+    nvs::Level *m_level;
 
 public:
 
@@ -16,7 +16,7 @@ public:
      * \brief StarlightGame
      * \param nomFichier
      */
-    StarlightGame(const std::string & nomFichier);
+    StarlightGame(const std::string &nomFichier);
 
     /*!
      * \brief StarlightGame
@@ -28,7 +28,7 @@ public:
      * \brief StarlightGame
      * \param nomFichier
      */
-    void lireMap(const std::string & nomFichier);
+    void lireMap(const std::string &nomFichier);
 
     /*!
      * \brief StarlightGame

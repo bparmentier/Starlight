@@ -14,10 +14,10 @@ class MainWindowStarlight : public QMainWindow
     Q_OBJECT
 
 private:
-    Ui::MainWindowStarlight * ui = nullptr;
-    QAction * m_action_aide = nullptr;
-    StarlightGame * m_jeu = nullptr;
-    ObservateurStarlight * m_obserJeu = nullptr;
+    Ui::MainWindowStarlight *ui = nullptr;
+    QAction *m_action_aide = nullptr;
+    StarlightGame *m_jeu = nullptr;
+    ObservateurStarlight *m_obserJeu = nullptr;
 
 
 public:
@@ -26,7 +26,7 @@ public:
      * \brief StarlightGame
      * \param nomFichier
      */
-    explicit MainWindowStarlight(QWidget * parent = 0);
+    explicit MainWindowStarlight(QWidget *parent = 0);
 
     /*!
      * \brief StarlightGame

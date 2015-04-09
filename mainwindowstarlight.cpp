@@ -40,15 +40,15 @@ void MainWindowStarlight::connexion()
 
 void MainWindowStarlight::creerPartie()
 {
-    if(m_jeu != nullptr){
-        if(m_jeu->getLevel()->won() || m_jeu->getLevel()->lost()){
+    if (m_jeu != nullptr) {
+        if (m_jeu->getLevel()->won() || m_jeu->getLevel()->lost()) {
             fermerPartie();
-        }else{
+        } else {
             QMessageBox::StandardButton reponse = QMessageBox::question(
                         this,
                         "Nouvelle partie",
                         "Êtes-vous sûr de vouloir commencer une nouvelle partie ?",
-                        QMessageBox::Yes|QMessageBox::No);
+                        QMessageBox::Yes | QMessageBox::No);
             if (reponse == QMessageBox::Yes) {
                 fermerPartie();
             } else {
@@ -57,18 +57,19 @@ void MainWindowStarlight::creerPartie()
         }
     }
 
-    DialogConfig cd {this};
+    DialogConfig cd{this};
     auto retour = cd.exec();
 
     if (retour == QDialog::Rejected) return;
-    try{
+    try {
         m_jeu = new StarlightGame(cd.getNomFichier().toStdString());
-        this->m_obserJeu = new ObservateurStarlight(m_jeu->getLevel(),this);
-        ui->graphicsView->setFixedSize(m_jeu->getLevel()->width()+2,m_jeu->getLevel()->height()+2);
+        this->m_obserJeu = new ObservateurStarlight(m_jeu->getLevel(), this);
+        ui->graphicsView->setFixedSize(m_jeu->getLevel()->width() + 2,
+                                       m_jeu->getLevel()->height() + 2);
         ui->graphicsView->setScene(m_obserJeu);
         ui->graphicsView->show();
         ui->centralWidget->setEnabled(true);
-    }catch(std::string err){
+    } catch(std::string err) {
         QMessageBox::information(this, "Erreur !", err.c_str());
     }
 }
@@ -85,7 +86,7 @@ void MainWindowStarlight::fermerPartie()
 
 void MainWindowStarlight::aide()
 {
-    QString msg {
+    QString msg{
         "<p>Starlight est un petit jeu en deux dimensions se jouant sur une carte "
         "rectangulaire, comportant une source de lumière, émettant un rayon "
         "rectiligne. Le but du jeu est d'atteindre une cible avec ledit rayon, "

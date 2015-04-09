@@ -4,7 +4,7 @@
 
 using namespace std;
 
-StarlightGame::StarlightGame(const string & nomFichier)
+StarlightGame::StarlightGame(const string &nomFichier)
 {
     lireMap(nomFichier);
 }
@@ -15,7 +15,7 @@ StarlightGame::~StarlightGame()
     m_level = nullptr;
 }
 
-void StarlightGame::lireMap(const string & nomFichier)
+void StarlightGame::lireMap(const string &nomFichier)
 {
     ifstream fichier{nomFichier};
     char element;
@@ -45,36 +45,36 @@ void StarlightGame::lireMap(const string & nomFichier)
         switch (element) {
         case 'S':
             fichier >> x >> y >> bord >> alpha >> longueur_onde;
-            source = nvs::SourceOfLight {x,y,bord,alpha,longueur_onde};
+            source = nvs::SourceOfLight{x, y, bord, alpha, longueur_onde};
             break;
         case 'D':
             fichier >> x >> y >> bord;
-            destination = nvs::Target {x,y,bord};
+            destination = nvs::Target{x, y, bord};
             break;
         case 'C':
             fichier >> x >> y >> rad >> mod;
-            tabCristaux.push_back(nvs::Crystal{x,y,rad,mod});
+            tabCristaux.push_back(nvs::Crystal{x, y, rad, mod});
             break;
         case 'L':
             fichier >> x >> y >> largeur >> hauteur >> lomin >> lomax;
-            tabLentilles.push_back(nvs::Lens{x,y,largeur,hauteur,lomax,lomin});
+            tabLentilles.push_back(nvs::Lens{x, y, largeur, hauteur, lomax, lomin});
             break;
         case 'W':
             fichier >> x1 >> y1 >> x2 >> y2;
-            tabMurs.push_back(nvs::Wall{x1,y1,x2,y2});
+            tabMurs.push_back(nvs::Wall{x1, y1, x2, y2});
             break;
         case 'N':
             fichier >> x >> y >> rad;
-            tabBombes.push_back(nvs::Bomb{x,y,rad});
+            tabBombes.push_back(nvs::Bomb{x, y, rad});
             break;
         case 'M':
             fichier >> x >> y >> longueur >> alpha;
-            tabMiroires.push_back(nvs::Mirror{x,y,longueur,alpha});
+            tabMiroires.push_back(nvs::Mirror{x, y, longueur, alpha});
             break;
         }
     }
-    m_level = new nvs::Level{largeurMap,hauteurMap,source,destination,
-            tabMurs,tabMiroires,tabLentilles,tabCristaux,tabBombes};
+    m_level = new nvs::Level{largeurMap, hauteurMap, source, destination,
+            tabMurs, tabMiroires, tabLentilles, tabCristaux, tabBombes};
 }
 
 nvs::Level * StarlightGame::getLevel(){
