@@ -7,6 +7,9 @@ namespace Ui {
     class DialogConfig;
 }
 
+/*!
+ * \brief The DialogConfig class
+ */
 class DialogConfig : public QDialog
 {
     Q_OBJECT
@@ -14,33 +17,26 @@ class DialogConfig : public QDialog
 public:
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Construit un DialogConfig avec le *parent* donné en paramètre.
+     * \param parent
      */
     explicit DialogConfig(QWidget *parent = 0);
 
-    /*!
-     * \brief StarlightGame
-     * \param nomFichier
-     */
     ~DialogConfig();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Retourne le nom du fichier de carte.
+     * \return
      */
     QString getFileName();
 
 private:
+
     Ui::DialogConfig *ui;
     QString m_fileName;
 
 private slots:
 
-    /*!
-     * \brief StarlightGame
-     * \param nomFichier
-     */
     void browse();
 };
 

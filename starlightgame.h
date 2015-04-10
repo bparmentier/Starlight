@@ -6,6 +6,9 @@
 #include "starlight/level.h"
 #include "o_sdo/sujetdobservation.h"
 
+/*!
+ * \brief The StarlightGame class
+ */
 class StarlightGame
 {
     nvs::Level *m_level;
@@ -13,26 +16,23 @@ class StarlightGame
 public:
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Construit un StarlightGame
+     * \param fileName
      */
     StarlightGame(const std::string &fileName);
 
-    /*!
-     * \brief StarlightGame
-     * \param nomFichier
-     */
     ~StarlightGame();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Lit le contenu du fichier de carte donné par *fileName* et crée un
+     * nouveau nvs::Level
+     * \param fileName le chemin vers le fichier de carte
      */
     void readMap(const std::string &fileName);
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Retourne le nvs::Level du jeu
+     * \return le nvs::Level
      */
     nvs::Level * getLevel();
 };

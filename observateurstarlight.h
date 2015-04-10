@@ -12,6 +12,9 @@
 #include <QtGui>
 #include <QGraphicsItem>
 
+/*!
+ * \brief The ObservateurStarlight class
+ */
 class ObservateurStarlight : public QGraphicsScene, public Observateur
 {
     nvs::Level *m_level = nullptr;
@@ -23,94 +26,85 @@ class ObservateurStarlight : public QGraphicsScene, public Observateur
 public:
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Construuit un ObservateurStarlight avec le *level* et le *parent*
+     * donné en paramètres.
+     * \param level le niveau du jeu
+     * \param parent
      */
     ObservateurStarlight(nvs::Level *level, QWidget *parent = 0);
 
-    /*!
-     * \brief StarlightGame
-     * \param nomFichier
-     */
     ~ObservateurStarlight();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief rafraichir
+     * \param sdo
      */
     void rafraichir(SujetDObservation *sdo);
 
 private:
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Dessine la source du rayon et la cible à atteindre
      */
     void drawSourceAndTarget();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Dessine les murs
      */
     void drawWalls();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Dessine les lentilles
      */
     void drawLenses();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Dessine les cristaux
      */
     void drawCrystals();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Dessine les bombes
      */
     void drawBombs();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Dessines les mirroirs
      */
     void drawMirrors();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Dessine les rayons lumineux
      */
     void drawLightRays();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Supprime les rayons lumineux
      */
     void removeLightRays();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Retourne l'indice de l'*element* dans la liste des mirroirs
+     * \param element l'élément à trouver
+     * \return l'indice de l'*element* dans la liste des mirroirs
      */
     int findElement(QGraphicsLineItem *element);
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Affiche un message d'information lorsque le jeu est terminé
      */
     void gameInfo();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Active ou désactive la source du rayon lumineux
+     * \param event
      */
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Réalise une rotation horlogique ou anti-horlogique de l'élément
+     * sélectionné en fonction de la touche pressée
+     * \param event
      */
     void keyPressEvent(QKeyEvent *event);
 };

@@ -9,6 +9,9 @@ namespace Ui {
 class MainWindowStarlight;
 }
 
+/*!
+ * \brief The MainWindowStarlight class
+ */
 class MainWindowStarlight : public QMainWindow
 {
     Q_OBJECT
@@ -19,47 +22,44 @@ private:
     StarlightGame *m_game = nullptr;
     ObservateurStarlight *m_gameObs = nullptr;
 
-
 public:
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief Construit une MainWindowStarlight avec le *parent* donné en
+     * paramètre.
+     * \param parent
      */
     explicit MainWindowStarlight(QWidget *parent = 0);
 
-    /*!
-     * \brief StarlightGame
-     * \param nomFichier
-     */
     ~MainWindowStarlight();
+
+    /*!
+     * \brief getUi
+     * \return
+     */
     Ui::MainWindowStarlight * getUi() const;
 
 private:
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief connection
      */
     void connection();
 
 private slots:
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief newGame
      */
     void newGame();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief closeGame
      */
     void closeGame();
 
     /*!
-     * \brief StarlightGame
-     * \param nomFichier
+     * \brief help
      */
     void help();
 };
