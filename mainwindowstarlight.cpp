@@ -169,7 +169,3 @@ void MainWindowStarlight::help()
         "<p>Veillez à ce que le fichier .map ne soit pas erroné.</p></html>"};
     QMessageBox::information(this, "Aide", msg);
 }
-
-Ui::MainWindowStarlight * MainWindowStarlight::getUi() const{
-    return ui;
-}

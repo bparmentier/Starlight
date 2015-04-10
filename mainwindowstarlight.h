@@ -34,12 +34,6 @@ public:
 
     ~MainWindowStarlight();
 
-    /*!
-     * \brief getUi
-     * \return
-     */
-    Ui::MainWindowStarlight * getUi() const;
-
 private:
 
     /*!
