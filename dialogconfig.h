@@ -33,7 +33,7 @@ public:
 
 private:
     Ui::DialogConfig *ui;
-    QString m_nomFichier;
+    QString m_fileName;
 
 private slots:
 

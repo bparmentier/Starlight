@@ -16,7 +16,7 @@ public:
      * \brief StarlightGame
      * \param nomFichier
      */
-    StarlightGame(const std::string &nomFichier);
+    StarlightGame(const std::string &fileName);
 
     /*!
      * \brief StarlightGame
@@ -28,7 +28,7 @@ public:
      * \brief StarlightGame
      * \param nomFichier
      */
-    void lireMap(const std::string &nomFichier);
+    void lireMap(const std::string &fileName);
 
     /*!
      * \brief StarlightGame

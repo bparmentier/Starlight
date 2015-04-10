@@ -17,18 +17,18 @@ DialogConfig::~DialogConfig()
 
 QString DialogConfig::getNomFichier()
 {
-    return m_nomFichier;
+    return m_fileName;
 }
 
 void DialogConfig::naviguer()
 {
-    QString nomFichier = QFileDialog::getOpenFileName(this,
+    QString fileName = QFileDialog::getOpenFileName(this,
                                                 tr("Choisir un fichier"),
                                                 ".",
                                                 tr("Niveau (*.map *.mapl);;Tous les fichiers (*)"));
-    if (!nomFichier.isEmpty()) {
-        QFileInfo infoFichier {nomFichier};
-        ui->fileName->setText(infoFichier.fileName());
-        m_nomFichier = nomFichier;
+    if (!fileName.isEmpty()) {
+        QFileInfo fileInfo {fileName};
+        ui->fileName->setText(fileInfo.fileName());
+        m_fileName = fileName;
     }
 }

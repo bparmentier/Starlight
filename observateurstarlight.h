@@ -14,11 +14,11 @@
 
 class ObservateurStarlight : public QGraphicsScene, public Observateur
 {
-    nvs::Level *m_niveau = nullptr;
+    nvs::Level *m_level = nullptr;
     QGraphicsRectItem *m_source = nullptr;
-    QGraphicsRectItem *m_destination = nullptr;
-    std::vector<std::pair<QGraphicsLineItem *, nvs::Mirror *>> m_tabMiroires;
-    std::vector<QGraphicsLineItem *> m_tabRayons;
+    QGraphicsRectItem *m_target = nullptr;
+    std::vector<std::pair<QGraphicsLineItem *, nvs::Mirror *>> m_mirrors;
+    std::vector<QGraphicsLineItem *> m_lightRays;
 
 public:
 
@@ -26,7 +26,7 @@ public:
      * \brief StarlightGame
      * \param nomFichier
      */
-    ObservateurStarlight(nvs::Level *niveau, QWidget *parent = 0);
+    ObservateurStarlight(nvs::Level *level, QWidget *parent = 0);
 
     /*!
      * \brief StarlightGame

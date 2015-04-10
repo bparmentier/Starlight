@@ -16,8 +16,8 @@ class MainWindowStarlight : public QMainWindow
 private:
     Ui::MainWindowStarlight *ui = nullptr;
     QAction *m_action_aide = nullptr;
-    StarlightGame *m_jeu = nullptr;
-    ObservateurStarlight *m_obserJeu = nullptr;
+    StarlightGame *m_game = nullptr;
+    ObservateurStarlight *m_gameObs = nullptr;
 
 
 public:

@@ -16,10 +16,10 @@ MainWindowStarlight::MainWindowStarlight(QWidget *parent) :
 
 MainWindowStarlight::~MainWindowStarlight()
 {
-    delete m_obserJeu;
-    m_obserJeu = nullptr;
-    delete m_jeu;
-    m_jeu = nullptr;
+    delete m_gameObs;
+    m_gameObs = nullptr;
+    delete m_game;
+    m_game = nullptr;
     delete m_action_aide;
     m_action_aide = nullptr;
     delete ui;
@@ -40,16 +40,16 @@ void MainWindowStarlight::connexion()
 
 void MainWindowStarlight::creerPartie()
 {
-    if (m_jeu != nullptr) {
-        if (m_jeu->getLevel()->won() || m_jeu->getLevel()->lost()) {
+    if (m_game != nullptr) {
+        if (m_game->getLevel()->won() || m_game->getLevel()->lost()) {
             fermerPartie();
         } else {
-            QMessageBox::StandardButton reponse = QMessageBox::question(
+            QMessageBox::StandardButton newGameRetVal = QMessageBox::question(
                         this,
                         "Nouvelle partie",
                         "Êtes-vous sûr de vouloir commencer une nouvelle partie ?",
                         QMessageBox::Yes | QMessageBox::No);
-            if (reponse == QMessageBox::Yes) {
+            if (newGameRetVal == QMessageBox::Yes) {
                 fermerPartie();
             } else {
                 return;
@@ -58,15 +58,15 @@ void MainWindowStarlight::creerPartie()
     }
 
     DialogConfig cd{this};
-    auto retour = cd.exec();
+    auto cdRetVal = cd.exec();
 
-    if (retour == QDialog::Rejected) return;
+    if (cdRetVal == QDialog::Rejected) return;
     try {
-        m_jeu = new StarlightGame(cd.getNomFichier().toStdString());
-        this->m_obserJeu = new ObservateurStarlight(m_jeu->getLevel(), this);
-        ui->graphicsView->setFixedSize(m_jeu->getLevel()->width() + 2,
-                                       m_jeu->getLevel()->height() + 2);
-        ui->graphicsView->setScene(m_obserJeu);
+        m_game = new StarlightGame(cd.getNomFichier().toStdString());
+        this->m_gameObs = new ObservateurStarlight(m_game->getLevel(), this);
+        ui->graphicsView->setFixedSize(m_game->getLevel()->width() + 2,
+                                       m_game->getLevel()->height() + 2);
+        ui->graphicsView->setScene(m_gameObs);
         ui->graphicsView->show();
         ui->centralWidget->setEnabled(true);
     } catch(std::string err) {
@@ -76,10 +76,10 @@ void MainWindowStarlight::creerPartie()
 
 void MainWindowStarlight::fermerPartie()
 {
-    delete m_obserJeu;
-    m_obserJeu = nullptr;
-    delete m_jeu;
-    m_jeu = nullptr;
+    delete m_gameObs;
+    m_gameObs = nullptr;
+    delete m_game;
+    m_game = nullptr;
     ui->graphicsView->hide();
     ui->centralWidget->setDisabled(true);
 }
