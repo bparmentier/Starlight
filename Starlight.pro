@@ -27,13 +27,11 @@ LIBS += -lstarlight_lin64
 SOURCES += main.cpp\
         mainwindowstarlight.cpp \
     dialogconfig.cpp \
-    starlightgame.cpp \
     starlight/level.cpp \
     observateurstarlight.cpp
 
 HEADERS  += mainwindowstarlight.h \
     dialogconfig.h \
-    starlightgame.h \
     geometry/circle.h \
     geometry/line.h \
     geometry/misc.h \

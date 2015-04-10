@@ -1,8 +1,9 @@
 #ifndef MAINWINDOWSTARLIGHT_H
 #define MAINWINDOWSTARLIGHT_H
 
+#include <string>
 #include <QMainWindow>
-#include "starlightgame.h"
+#include "starlight/level.h"
 #include "observateurstarlight.h"
 
 namespace Ui {
@@ -19,7 +20,7 @@ class MainWindowStarlight : public QMainWindow
 private:
     Ui::MainWindowStarlight *ui = nullptr;
     QAction *m_action_aide = nullptr;
-    StarlightGame *m_game = nullptr;
+    nvs::Level *m_level = nullptr;
     ObservateurStarlight *m_gameObs = nullptr;
 
 public:
@@ -45,6 +46,13 @@ private:
      * \brief connection
      */
     void connection();
+
+    /*!
+     * \brief Lit le contenu du fichier de carte donné par *fileName* et crée un
+     * nouveau nvs::Level
+     * \param fileName le chemin vers le fichier de carte
+     */
+    void readMap(const std::string &fileName);
 
 private slots:
 
