@@ -2,7 +2,7 @@
 #define OBSERVATEURSTARLIGHT_H
 
 #include "o_sdo/observateur.h"
-#include "starlightgame.h"
+#include "starlight/level.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
