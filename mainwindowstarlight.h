@@ -41,7 +41,7 @@ private:
      * \brief StarlightGame
      * \param nomFichier
      */
-    void connexion();
+    void connection();
 
 private slots:
 
@@ -49,19 +49,19 @@ private slots:
      * \brief StarlightGame
      * \param nomFichier
      */
-    void creerPartie();
+    void newGame();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void fermerPartie();
+    void closeGame();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void aide();
+    void help();
 };
 
 #endif // MAINWINDOWSTARLIGHT_H

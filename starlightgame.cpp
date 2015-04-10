@@ -6,7 +6,7 @@ using namespace std;
 
 StarlightGame::StarlightGame(const string &fileName)
 {
-    lireMap(fileName);
+    readMap(fileName);
 }
 
 StarlightGame::~StarlightGame()
@@ -15,7 +15,7 @@ StarlightGame::~StarlightGame()
     m_level = nullptr;
 }
 
-void StarlightGame::lireMap(const string &fileName)
+void StarlightGame::readMap(const string &fileName)
 {
     ifstream file{fileName};
     char element;

@@ -6,7 +6,7 @@ DialogConfig::DialogConfig(QWidget *parent) :
     QDialog(parent), ui(new Ui::DialogConfig)
 {
     ui->setupUi(this);
-    connect(ui->navig, &QPushButton::clicked, this, &DialogConfig::naviguer);
+    connect(ui->navig, &QPushButton::clicked, this, &DialogConfig::browse);
 }
 
 DialogConfig::~DialogConfig()
@@ -15,12 +15,12 @@ DialogConfig::~DialogConfig()
     ui = nullptr;
 }
 
-QString DialogConfig::getNomFichier()
+QString DialogConfig::getFileName()
 {
     return m_fileName;
 }
 
-void DialogConfig::naviguer()
+void DialogConfig::browse()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                 tr("Choisir un fichier"),

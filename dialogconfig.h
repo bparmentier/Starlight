@@ -29,7 +29,7 @@ public:
      * \brief StarlightGame
      * \param nomFichier
      */
-    QString getNomFichier();
+    QString getFileName();
 
 private:
     Ui::DialogConfig *ui;
@@ -41,7 +41,7 @@ private slots:
      * \brief StarlightGame
      * \param nomFichier
      */
-    void naviguer();
+    void browse();
 };
 
 #endif // DIALOGCONFIG_H

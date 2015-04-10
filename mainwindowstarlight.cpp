@@ -10,7 +10,7 @@ MainWindowStarlight::MainWindowStarlight(QWidget *parent) :
     ui->setupUi(this);
     m_action_aide = ui->menuBar->addAction(tr("&Aide"));
     m_action_aide->setShortcut(QString("CTRL+A"));
-    this->connexion();
+    this->connection();
     ui->centralWidget->setDisabled(true);
 }
 
@@ -26,23 +26,23 @@ MainWindowStarlight::~MainWindowStarlight()
     ui = nullptr;
 }
 
-void MainWindowStarlight::connexion()
+void MainWindowStarlight::connection()
 {
     connect(ui->action_Quitter, &QAction::triggered,
             &QCoreApplication::quit);
     connect(ui->action_Nouveau, &QAction::triggered,
-            this, &MainWindowStarlight::creerPartie);
+            this, &MainWindowStarlight::newGame);
     connect(ui->action_Fermer, &QAction::triggered,
-            this, &MainWindowStarlight::fermerPartie);
+            this, &MainWindowStarlight::closeGame);
     connect(m_action_aide, &QAction::triggered,
-            this, &MainWindowStarlight::aide);
+            this, &MainWindowStarlight::help);
 }
 
-void MainWindowStarlight::creerPartie()
+void MainWindowStarlight::newGame()
 {
     if (m_game != nullptr) {
         if (m_game->getLevel()->won() || m_game->getLevel()->lost()) {
-            fermerPartie();
+            closeGame();
         } else {
             QMessageBox::StandardButton newGameRetVal = QMessageBox::question(
                         this,
@@ -50,7 +50,7 @@ void MainWindowStarlight::creerPartie()
                         "Êtes-vous sûr de vouloir commencer une nouvelle partie ?",
                         QMessageBox::Yes | QMessageBox::No);
             if (newGameRetVal == QMessageBox::Yes) {
-                fermerPartie();
+                closeGame();
             } else {
                 return;
             }
@@ -62,7 +62,7 @@ void MainWindowStarlight::creerPartie()
 
     if (cdRetVal == QDialog::Rejected) return;
     try {
-        m_game = new StarlightGame(cd.getNomFichier().toStdString());
+        m_game = new StarlightGame(cd.getFileName().toStdString());
         this->m_gameObs = new ObservateurStarlight(m_game->getLevel(), this);
         ui->graphicsView->setFixedSize(m_game->getLevel()->width() + 2,
                                        m_game->getLevel()->height() + 2);
@@ -74,7 +74,7 @@ void MainWindowStarlight::creerPartie()
     }
 }
 
-void MainWindowStarlight::fermerPartie()
+void MainWindowStarlight::closeGame()
 {
     delete m_gameObs;
     m_gameObs = nullptr;
@@ -84,7 +84,7 @@ void MainWindowStarlight::fermerPartie()
     ui->centralWidget->setDisabled(true);
 }
 
-void MainWindowStarlight::aide()
+void MainWindowStarlight::help()
 {
     QString msg{
         "<p>Starlight est un petit jeu en deux dimensions se jouant sur une carte "

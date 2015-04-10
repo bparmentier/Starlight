@@ -46,61 +46,61 @@ private:
      * \brief StarlightGame
      * \param nomFichier
      */
-    void dessinerSourceEtDestination();
+    void drawSourceAndTarget();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void dessinerMurs();
+    void drawWalls();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void dessinerLentilles();
+    void drawLenses();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void dessinerCristaux();
+    void drawCrystals();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void dessinerBombes();
+    void drawBombs();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void dessinerMiroires();
+    void drawMirrors();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void dessinerRayons();
+    void drawLightRays();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void supprimerRayons();
+    void removeLightRays();
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    int chercherElement(QGraphicsLineItem *element);
+    int findElement(QGraphicsLineItem *element);
 
     /*!
      * \brief StarlightGame
      * \param nomFichier
      */
-    void informationJeu();
+    void gameInfo();
 
     /*!
      * \brief StarlightGame

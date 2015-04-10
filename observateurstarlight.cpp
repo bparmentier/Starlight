@@ -9,12 +9,12 @@ ObservateurStarlight::ObservateurStarlight(nvs::Level *level, QWidget *parent) :
 {
     m_level->attacher(this);
     this->setSceneRect(0, 0, m_level->width(), m_level->height());
-    dessinerSourceEtDestination();
-    dessinerMurs();
-    dessinerLentilles();
-    dessinerCristaux();
-    dessinerBombes();
-    dessinerMiroires();
+    drawSourceAndTarget();
+    drawWalls();
+    drawLenses();
+    drawCrystals();
+    drawBombs();
+    drawMirrors();
 }
 
 ObservateurStarlight::~ObservateurStarlight()
@@ -45,10 +45,10 @@ void ObservateurStarlight::rafraichir(SujetDObservation *sdo)
     if (sdo != m_level) {
         return;
     }
-    dessinerRayons();
+    drawLightRays();
 }
 
-void ObservateurStarlight::dessinerSourceEtDestination()
+void ObservateurStarlight::drawSourceAndTarget()
 {
     nvs::Point2Dd point = m_level->source().shape().topLeft();
     int edgeLength = m_level->source().shape().width();
@@ -60,7 +60,7 @@ void ObservateurStarlight::dessinerSourceEtDestination()
                                   QPen(QBrush(Qt::black), 1), QBrush(Qt::black));
 }
 
-void ObservateurStarlight::dessinerMurs()
+void ObservateurStarlight::drawWalls()
 {
     QPen wallStyle{QBrush{Qt::black}, 2};
     nvs::Segment line;
@@ -72,7 +72,7 @@ void ObservateurStarlight::dessinerMurs()
     }
 }
 
-void ObservateurStarlight::dessinerLentilles()
+void ObservateurStarlight::drawLenses()
 {
     for (int i = 0; i < m_level->lenses().size(); i++) {
         nvs::Point2Dd point = m_level->lenses().at(i).shape().topLeft();
@@ -82,7 +82,7 @@ void ObservateurStarlight::dessinerLentilles()
     }
 }
 
-void ObservateurStarlight::dessinerCristaux()
+void ObservateurStarlight::drawCrystals()
 {
     for (int i = 0; i < m_level->crystals().size(); i++) {
         nvs::Point2Dd point = m_level->crystals().at(i).shape().center();
@@ -92,7 +92,7 @@ void ObservateurStarlight::dessinerCristaux()
     }
 }
 
-void ObservateurStarlight::dessinerBombes()
+void ObservateurStarlight::drawBombs()
 {
     for (int i = 0; i < m_level->bombs().size(); i++) {
         nvs::Point2Dd point = m_level->bombs().at(i).shape().center();
@@ -103,7 +103,7 @@ void ObservateurStarlight::dessinerBombes()
     }
 }
 
-void ObservateurStarlight::dessinerMiroires()
+void ObservateurStarlight::drawMirrors()
 {
     QPen mirrorStyle{QBrush{Qt::darkBlue}, 5};
     nvs::Segment line;
@@ -124,7 +124,7 @@ void ObservateurStarlight::dessinerMiroires()
     }
 }
 
-void ObservateurStarlight::dessinerRayons()
+void ObservateurStarlight::drawLightRays()
 {
     QPen lightRayStyle{QBrush{Qt::red},1};
     nvs::Segment line;
@@ -137,7 +137,7 @@ void ObservateurStarlight::dessinerRayons()
     }
 }
 
-void ObservateurStarlight::supprimerRayons()
+void ObservateurStarlight::removeLightRays()
 {
     for (int i = 0; i < m_lightRays.size(); i++) {
         this->removeItem(m_lightRays.at(i));
@@ -147,7 +147,7 @@ void ObservateurStarlight::supprimerRayons()
     m_lightRays.clear();
 }
 
-int ObservateurStarlight::chercherElement(QGraphicsLineItem *element)
+int ObservateurStarlight::findElement(QGraphicsLineItem *element)
 {
     bool found = false;
     int i = 0;
@@ -161,7 +161,7 @@ int ObservateurStarlight::chercherElement(QGraphicsLineItem *element)
     return i;
 }
 
-void ObservateurStarlight::informationJeu(){
+void ObservateurStarlight::gameInfo(){
     if (m_level->won() || m_level->lost()) {
         QString msg;
         if (m_level->won()) {
@@ -185,12 +185,12 @@ void ObservateurStarlight::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (m_level->source().isOn()) {
             m_level->source().switchOff();
             m_source->setBrush(QBrush(Qt::darkGreen));
-            supprimerRayons();
+            removeLightRays();
         } else {
             m_level->source().switchOn();
             m_source->setBrush(QBrush(Qt::green));
-            dessinerRayons();
-            informationJeu();
+            drawLightRays();
+            gameInfo();
         }
     }
 }
@@ -199,7 +199,7 @@ void ObservateurStarlight::keyPressEvent(QKeyEvent *event)
 {
     if (!this->selectedItems().isEmpty() && this->selectedItems().size() == 1) {
         QGraphicsLineItem *mirror = (QGraphicsLineItem *) this->selectedItems().first();
-        nvs::Mirror *element = m_mirrors.at(chercherElement(mirror)).second;
+        nvs::Mirror *element = m_mirrors.at(findElement(mirror)).second;
         if (event->key() == Qt::Key_Up) {
             mirror->setRotation(mirror->rotation() - 1);
             element->rotate(+((1 * M_PI) / 180));
@@ -208,8 +208,8 @@ void ObservateurStarlight::keyPressEvent(QKeyEvent *event)
             mirror->setRotation(mirror->rotation() + 1);
             element->rotate(-((1 * M_PI) / 180));
         }
-        supprimerRayons();
+        removeLightRays();
         rafraichir(m_level);
-        informationJeu();
+        gameInfo();
     }
 }
