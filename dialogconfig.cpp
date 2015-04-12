@@ -25,7 +25,7 @@ void DialogConfig::browse()
     QString fileName = QFileDialog::getOpenFileName(this,
                                                 tr("Choisir un fichier"),
                                                 ".",
-                                                tr("Niveau (*.map *.mapl);;Tous les fichiers (*)"));
+                                                tr("Niveau (*.mapl);;Tous les fichiers (*)"));
     if (!fileName.isEmpty()) {
         QFileInfo fileInfo {fileName};
         ui->fileName->setText(fileInfo.fileName());
