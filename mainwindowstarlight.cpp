@@ -1,8 +1,8 @@
 #include "mainwindowstarlight.h"
 #include "ui_mainwindowstarlight.h"
-#include "dialogconfig.h"
 #include "observateurstarlight.h"
 #include <QMessageBox>
+#include <QFileDialog>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -162,15 +162,18 @@ void MainWindowStarlight::openFile()
         }
     }
 
-    DialogConfig cd{this};
-    auto cdRetVal = cd.exec();
+    QString fileName = QFileDialog::getOpenFileName(this,
+                tr("Choisir un fichier"),
+                ".",
+                tr("Niveau (*.mapl);;Tous les fichiers (*)"));
 
-    if (cdRetVal == QDialog::Rejected) return;
-    try {
-        readMap(cd.getFileName());
-        setObserver();
-    } catch(std::runtime_error err) {
-        QMessageBox::information(this, "Erreur", err.what());
+    if (!fileName.isEmpty()) {
+        try {
+            readMap(fileName);
+            setObserver();
+        } catch(std::runtime_error err) {
+            QMessageBox::information(this, "Erreur", err.what());
+        }
     }
 }
 

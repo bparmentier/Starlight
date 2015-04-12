@@ -26,13 +26,11 @@ LIBS += -lstarlight_lin64
 
 SOURCES += main.cpp\
         mainwindowstarlight.cpp \
-    dialogconfig.cpp \
     starlight/level.cpp \
     observateurstarlight.cpp \
     levelchooserdialog.cpp
 
 HEADERS  += mainwindowstarlight.h \
-    dialogconfig.h \
     geometry/circle.h \
     geometry/line.h \
     geometry/misc.h \
@@ -57,7 +55,6 @@ HEADERS  += mainwindowstarlight.h \
     levelchooserdialog.h
 
 FORMS    += mainwindowstarlight.ui \
-    dialogconfig.ui \
     levelchooserdialog.ui
 
 RESOURCES += \
