@@ -18,10 +18,10 @@ class MainWindowStarlight : public QMainWindow
     Q_OBJECT
 
 private:
-    Ui::MainWindowStarlight *ui = nullptr;
-    QAction *m_action_aide = nullptr;
-    nvs::Level *m_level = nullptr;
-    ObservateurStarlight *m_gameObs = nullptr;
+    Ui::MainWindowStarlight *ui;
+    QAction *m_action_aide;
+    nvs::Level *m_level;
+    ObservateurStarlight *m_gameObs;
 
 public:
 
@@ -46,7 +46,12 @@ private:
      * nouveau nvs::Level
      * \param fileName le chemin vers le fichier de carte
      */
-    void readMap(const std::string &fileName);
+    void readMap(QString fileName);
+
+    /*!
+     * \brief setObserver
+     */
+    void setObserver();
 
 private slots:
 
@@ -54,6 +59,11 @@ private slots:
      * \brief newGame
      */
     void newGame();
+
+    /*!
+     * \brief openFile
+     */
+    void openFile();
 
     /*!
      * \brief closeGame

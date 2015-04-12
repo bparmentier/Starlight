@@ -34,6 +34,7 @@
      <string>&amp;Jeu</string>
     </property>
     <addaction name="action_Nouveau"/>
+    <addaction name="action_Ouvrir"/>
     <addaction name="action_Fermer"/>
     <addaction name="action_Quitter"/>
    </widget>
@@ -66,6 +67,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="action_Ouvrir">
+   <property name="text">
+    <string>&amp;Ouvrir</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>

@@ -28,7 +28,8 @@ SOURCES += main.cpp\
         mainwindowstarlight.cpp \
     dialogconfig.cpp \
     starlight/level.cpp \
-    observateurstarlight.cpp
+    observateurstarlight.cpp \
+    levelchooserdialog.cpp
 
 HEADERS  += mainwindowstarlight.h \
     dialogconfig.h \
@@ -52,7 +53,12 @@ HEADERS  += mainwindowstarlight.h \
     starlight/target.h \
     starlight/wall.h \
     starlight/wavelength.h \
-    observateurstarlight.h
+    observateurstarlight.h \
+    levelchooserdialog.h
 
 FORMS    += mainwindowstarlight.ui \
-    dialogconfig.ui
+    dialogconfig.ui \
+    levelchooserdialog.ui
+
+RESOURCES += \
+    maps.qrc

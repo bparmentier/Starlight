@@ -17,9 +17,9 @@
  */
 class ObservateurStarlight : public QGraphicsScene, public Observateur
 {
-    nvs::Level *m_level = nullptr;
-    QGraphicsRectItem *m_source = nullptr;
-    QGraphicsRectItem *m_target = nullptr;
+    nvs::Level *m_level;
+    QGraphicsRectItem *m_source;
+    QGraphicsRectItem *m_target;
     std::vector<std::pair<QGraphicsLineItem *, nvs::Mirror *>> m_mirrors;
     std::vector<QGraphicsLineItem *> m_lightRays;
 

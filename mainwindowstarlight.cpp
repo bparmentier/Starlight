@@ -6,9 +6,13 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <exception>
+
+#include "levelchooserdialog.h"
 
 MainWindowStarlight::MainWindowStarlight(QWidget *parent) :
-    QMainWindow(parent), ui(new Ui::MainWindowStarlight)
+    QMainWindow(parent), ui(new Ui::MainWindowStarlight),
+    m_level(nullptr), m_gameObs(nullptr)
 {
     ui->setupUi(this);
     m_action_aide = ui->menuBar->addAction(tr("&Aide"));
@@ -35,15 +39,16 @@ void MainWindowStarlight::connection()
             &QCoreApplication::quit);
     connect(ui->action_Nouveau, &QAction::triggered,
             this, &MainWindowStarlight::newGame);
+    connect(ui->action_Ouvrir, &QAction::triggered,
+            this, &MainWindowStarlight::openFile);
     connect(ui->action_Fermer, &QAction::triggered,
             this, &MainWindowStarlight::closeGame);
     connect(m_action_aide, &QAction::triggered,
             this, &MainWindowStarlight::help);
 }
 
-void MainWindowStarlight::readMap(const std::string &fileName)
+void MainWindowStarlight::readMap(QString fileName)
 {
-    std::ifstream file{fileName};
     char element;
     int mapWidth, mapHeight, wavelength, mod, wlmin, wlmax;
     double x, y, x1, x2, y1, y2, width, height, length, edge, rad, alpha;
@@ -56,49 +61,50 @@ void MainWindowStarlight::readMap(const std::string &fileName)
     nvs::SourceOfLight source;
     nvs::Target target;
 
-    if (!file.is_open()) {
-        std::string msg { "Fichier : \"" };
-        msg += fileName;
-        msg += "\" introuvable.";
-        throw msg;
-    }
+    QFile mapFile(fileName);
+    if (!mapFile.open(QIODevice::ReadOnly | QIODevice::Text))
+        throw std::runtime_error("Impossible d'ouvrir le fichier de carte");
+
+    QTextStream in(&mapFile);
 
     /* first line: width and height */
-    file >> mapWidth >> mapHeight;
+    in >> mapWidth >> mapHeight;
 
     /* map components */
-    while (file >> element) {
+    while (!in.atEnd()) {
+        in >> element;
         switch (element) {
         case 'S':
-            file >> x >> y >> edge >> alpha >> wavelength;
+            in >> x >> y >> edge >> alpha >> wavelength;
             source = nvs::SourceOfLight{x, y, edge, alpha, wavelength};
             break;
         case 'D':
-            file >> x >> y >> edge;
+            in >> x >> y >> edge;
             target = nvs::Target{x, y, edge};
             break;
         case 'C':
-            file >> x >> y >> rad >> mod;
+            in >> x >> y >> rad >> mod;
             crystals.push_back(nvs::Crystal{x, y, rad, mod});
             break;
         case 'L':
-            file >> x >> y >> width >> height >> wlmin >> wlmax;
+            in >> x >> y >> width >> height >> wlmin >> wlmax;
             lenses.push_back(nvs::Lens{x, y, width, height, wlmax, wlmin});
             break;
         case 'W':
-            file >> x1 >> y1 >> x2 >> y2;
+            in >> x1 >> y1 >> x2 >> y2;
             walls.push_back(nvs::Wall{x1, y1, x2, y2});
             break;
         case 'N':
-            file >> x >> y >> rad;
+            in >> x >> y >> rad;
             bombs.push_back(nvs::Bomb{x, y, rad});
             break;
         case 'M':
-            file >> x >> y >> length >> alpha;
+            in >> x >> y >> length >> alpha;
             mirrors.push_back(nvs::Mirror{x, y, length, alpha});
             break;
         }
     }
+    mapFile.close();
     m_level = new nvs::Level{mapWidth, mapHeight, source, target,
             walls, mirrors, lenses, crystals, bombs};
 }
@@ -122,21 +128,60 @@ void MainWindowStarlight::newGame()
         }
     }
 
+    LevelChooserDialog lcd{this};
+    auto lcdRetVal = lcd.exec();
+
+    if (lcdRetVal == QDialog::Rejected) return;
+
+    QString fileName(":level_");
+    fileName.append(QString::number(lcd.getLevel()));
+    try {
+        readMap(fileName);
+        setObserver();
+    } catch(std::runtime_error err) {
+        QMessageBox::information(this, "Erreur", err.what());
+    }
+}
+
+void MainWindowStarlight::openFile()
+{
+    if (m_level != nullptr) {
+        if (m_level->won() || m_level->lost()) {
+            closeGame();
+        } else {
+            QMessageBox::StandardButton newGameRetVal = QMessageBox::question(
+                        this,
+                        "Nouvelle partie",
+                        "Êtes-vous sûr de vouloir commencer une nouvelle partie ?",
+                        QMessageBox::Yes | QMessageBox::No);
+            if (newGameRetVal == QMessageBox::Yes) {
+                closeGame();
+            } else {
+                return;
+            }
+        }
+    }
+
     DialogConfig cd{this};
     auto cdRetVal = cd.exec();
 
     if (cdRetVal == QDialog::Rejected) return;
     try {
-        readMap(cd.getFileName().toStdString());
-        this->m_gameObs = new ObservateurStarlight(m_level, this);
-        ui->graphicsView->setFixedSize(m_level->width() + 2,
-                                       m_level->height() + 2);
-        ui->graphicsView->setScene(m_gameObs);
-        ui->graphicsView->show();
-        ui->centralWidget->setEnabled(true);
-    } catch(std::string err) {
-        QMessageBox::information(this, "Erreur !", err.c_str());
+        readMap(cd.getFileName());
+        setObserver();
+    } catch(std::runtime_error err) {
+        QMessageBox::information(this, "Erreur", err.what());
     }
+}
+
+void MainWindowStarlight::setObserver()
+{
+    this->m_gameObs = new ObservateurStarlight(m_level, this);
+    ui->graphicsView->setFixedSize(m_level->width() + 2,
+                                   m_level->height() + 2);
+    ui->graphicsView->setScene(m_gameObs);
+    ui->graphicsView->show();
+    ui->centralWidget->setEnabled(true);
 }
 
 void MainWindowStarlight::closeGame()
