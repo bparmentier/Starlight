@@ -21,6 +21,7 @@ class ObservateurStarlight : public QGraphicsScene, public Observateur
     QGraphicsRectItem *m_source;
     QGraphicsRectItem *m_target;
     std::vector<std::pair<QGraphicsLineItem *, nvs::Mirror *>> m_mirrors;
+    std::vector<std::pair<QGraphicsEllipseItem *, const nvs::Bomb *>> m_bombs;
     std::vector<QGraphicsLineItem *> m_lightRays;
 
 public:

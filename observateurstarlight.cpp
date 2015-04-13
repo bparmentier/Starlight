@@ -98,9 +98,14 @@ void ObservateurStarlight::drawBombs()
     for (int i = 0; i < m_level->bombs().size(); i++) {
         nvs::Point2Dd point = m_level->bombs().at(i).shape().center();
         double radius = m_level->bombs().at(i).shape().radius();
-        this->addEllipse(point.x() - radius, point.y() - radius,
-                         radius * 2, radius * 2, QPen(Qt::black),
-                         QBrush(QColor(Qt::red)));
+        std::pair<QGraphicsEllipseItem *, const nvs::Bomb *> bomb{
+            this->addEllipse(
+                    point.x() - radius, point.y() - radius,
+                    radius * 2, radius * 2, QPen(Qt::black),
+                    QBrush(QColor(Qt::black))),
+            &m_level->bombs().at(i)
+        };
+        m_bombs.push_back(bomb);
     }
 }
 
@@ -170,9 +175,14 @@ void ObservateurStarlight::gameInfo(){
             msg = "Vous avez gagné, bravo !";
         }
         if (m_level->lost()) {
+            for (int i = 0; i < m_bombs.size(); i++) {
+                if (m_bombs.at(i).second->enlightened())
+                    m_bombs.at(i).first->setBrush(QBrush(QColor(Qt::red)));
+            }
             msg = "Vous avez perdu, veuillez recommencer !";
         }
-        QMessageBox::information((QWidget*)this->parent(), "Fin de partie", msg);
+        QMessageBox::information((QWidget *) this->parent(),
+                                 "Fin de partie", msg);
         ((MainWindowStarlight *) this->parent())->centralWidget()->setDisabled(true);
     }
 }
