@@ -54,6 +54,7 @@ void ObservateurStarlight::drawSourceAndTarget()
     int edgeLength = m_level->source().shape().width();
     m_source = this->addRect(point.x(), point.y(), edgeLength, edgeLength,
                              QPen(QBrush(Qt::black), 1), QBrush(Qt::darkGreen));
+    m_source->setCursor(QCursor(Qt::PointingHandCursor));
     point = m_level->target().shape().topLeft();
     edgeLength = m_level->target().shape().width();
     m_target = this->addRect(point.x(), point.y(), edgeLength, edgeLength,
@@ -108,7 +109,6 @@ void ObservateurStarlight::drawMirrors()
     QPen mirrorStyle{QBrush{Qt::darkBlue}, 5};
     nvs::Segment line;
     for (int i = 0; i < m_level->mirrors().size(); i++) {
-        m_level->mirrors().at(i);
         line = m_level->mirrors().at(i).shape();
         std::pair<QGraphicsLineItem *, nvs::Mirror *> mirror{
             this->addLine(line.first().x(), line.first().y(),
@@ -117,6 +117,7 @@ void ObservateurStarlight::drawMirrors()
             &m_level->mirrors().at(i)
         };
         mirror.first->setFlag(QGraphicsLineItem::ItemIsSelectable);
+        mirror.first->setCursor(QCursor(Qt::PointingHandCursor));
         mirror.first->setTransformOriginPoint(
                     ((line.first().x() + line.second().x()) / 2),
                     ((line.first().y() + line.second().y()) / 2));
@@ -126,7 +127,7 @@ void ObservateurStarlight::drawMirrors()
 
 void ObservateurStarlight::drawLightRays()
 {
-    QPen lightRayStyle{QBrush{Qt::red},1};
+    QPen lightRayStyle{QBrush{Qt::red}, 1};
     nvs::Segment line;
     for (int i = 0; i < m_level->boundedRays().size(); i++) {
         line = m_level->boundedRays().at(i).first;
