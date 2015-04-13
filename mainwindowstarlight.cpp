@@ -185,6 +185,7 @@ void MainWindowStarlight::setObserver()
     ui->graphicsView->setScene(m_gameObs);
     ui->graphicsView->show();
     ui->centralWidget->setEnabled(true);
+    ui->action_Fermer->setEnabled(true);
 }
 
 void MainWindowStarlight::closeGame()
@@ -195,6 +196,7 @@ void MainWindowStarlight::closeGame()
     m_level = nullptr;
     ui->graphicsView->hide();
     ui->centralWidget->setDisabled(true);
+    ui->action_Fermer->setDisabled(true);
 }
 
 void MainWindowStarlight::help()
