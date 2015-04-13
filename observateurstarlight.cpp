@@ -189,6 +189,8 @@ void ObservateurStarlight::gameInfo(){
 
 void ObservateurStarlight::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    QGraphicsScene::mousePressEvent(event);
+
     QGraphicsItem *element = this->itemAt(event->lastScenePos().x(),
                                            event->lastScenePos().y(),
                                            QTransform());
