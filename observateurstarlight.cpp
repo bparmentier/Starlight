@@ -19,13 +19,13 @@ ObservateurStarlight::ObservateurStarlight(nvs::Level *level, QWidget *parent) :
 
 ObservateurStarlight::~ObservateurStarlight()
 {
-    for (int i = 0; i < m_lightRays.size(); i++) {
+    for (unsigned i = 0; i < m_lightRays.size(); i++) {
         delete m_lightRays.at(i);
         m_lightRays.at(i) = nullptr;
     }
     m_lightRays.clear();
 
-    for (int i = 0; i < m_mirrors.size(); i++) {
+    for (unsigned i = 0; i < m_mirrors.size(); i++) {
         delete m_mirrors.at(i).first;
         m_mirrors.at(i).first = nullptr;
     }
@@ -65,7 +65,7 @@ void ObservateurStarlight::drawWalls()
 {
     QPen wallStyle{QBrush{Qt::black}, 2};
     nvs::Segment line;
-    for (int i = 0; i < m_level->walls().size(); i++) {
+    for (unsigned i = 0; i < m_level->walls().size(); i++) {
         line = m_level->walls().at(i).shape();
         this->addLine(line.first().x(), line.first().y(),
                       line.second().x(), line.second().y(),
@@ -75,7 +75,7 @@ void ObservateurStarlight::drawWalls()
 
 void ObservateurStarlight::drawLenses()
 {
-    for (int i = 0; i < m_level->lenses().size(); i++) {
+    for (unsigned i = 0; i < m_level->lenses().size(); i++) {
         nvs::Point2Dd point = m_level->lenses().at(i).shape().topLeft();
         int width = m_level->lenses().at(i).shape().width();
         int height = m_level->lenses().at(i).shape().height();
@@ -85,7 +85,7 @@ void ObservateurStarlight::drawLenses()
 
 void ObservateurStarlight::drawCrystals()
 {
-    for (int i = 0; i < m_level->crystals().size(); i++) {
+    for (unsigned i = 0; i < m_level->crystals().size(); i++) {
         nvs::Point2Dd point = m_level->crystals().at(i).shape().center();
         double radius = m_level->crystals().at(i).shape().radius();
         this->addEllipse(point.x() - radius, point.y() - radius,
@@ -95,7 +95,7 @@ void ObservateurStarlight::drawCrystals()
 
 void ObservateurStarlight::drawBombs()
 {
-    for (int i = 0; i < m_level->bombs().size(); i++) {
+    for (unsigned i = 0; i < m_level->bombs().size(); i++) {
         nvs::Point2Dd point = m_level->bombs().at(i).shape().center();
         double radius = m_level->bombs().at(i).shape().radius();
         std::pair<QGraphicsEllipseItem *, const nvs::Bomb *> bomb{
@@ -113,7 +113,7 @@ void ObservateurStarlight::drawMirrors()
 {
     QPen mirrorStyle{QBrush{Qt::darkBlue}, 5};
     nvs::Segment line;
-    for (int i = 0; i < m_level->mirrors().size(); i++) {
+    for (unsigned i = 0; i < m_level->mirrors().size(); i++) {
         line = m_level->mirrors().at(i).shape();
         std::pair<QGraphicsLineItem *, nvs::Mirror *> mirror{
             this->addLine(line.first().x(), line.first().y(),
@@ -134,7 +134,7 @@ void ObservateurStarlight::drawLightRays()
 {
     QPen lightRayStyle{QBrush{Qt::red}, 1};
     nvs::Segment line;
-    for (int i = 0; i < m_level->boundedRays().size(); i++) {
+    for (unsigned i = 0; i < m_level->boundedRays().size(); i++) {
         line = m_level->boundedRays().at(i).first;
         m_lightRays.push_back(
                     this->addLine(line.first().x(), line.first().y(),
@@ -145,7 +145,7 @@ void ObservateurStarlight::drawLightRays()
 
 void ObservateurStarlight::removeLightRays()
 {
-    for (int i = 0; i < m_lightRays.size(); i++) {
+    for (unsigned i = 0; i < m_lightRays.size(); i++) {
         this->removeItem(m_lightRays.at(i));
         delete m_lightRays.at(i);
         m_lightRays.at(i) = nullptr;
@@ -156,7 +156,7 @@ void ObservateurStarlight::removeLightRays()
 int ObservateurStarlight::findElement(QGraphicsLineItem *element)
 {
     bool found = false;
-    int i = 0;
+    unsigned i = 0;
     while (i < m_mirrors.size() && !found) {
         if (element == m_mirrors.at(i).first) {
             found = true;
@@ -175,7 +175,7 @@ void ObservateurStarlight::gameInfo(){
             msg = "Vous avez gagné, bravo !";
         }
         if (m_level->lost()) {
-            for (int i = 0; i < m_bombs.size(); i++) {
+            for (unsigned i = 0; i < m_bombs.size(); i++) {
                 if (m_bombs.at(i).second->enlightened())
                     m_bombs.at(i).first->setBrush(QBrush(QColor(Qt::red)));
             }
