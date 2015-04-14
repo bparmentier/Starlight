@@ -17,6 +17,7 @@ MainWindowStarlight::MainWindowStarlight(QWidget *parent) :
     ui->setupUi(this);
     m_action_aide = ui->menuBar->addAction(tr("&Aide"));
     m_action_aide->setShortcut(QString("CTRL+A"));
+    m_action_aide->setStatusTip("Aide du jeu");
     this->connection();
     ui->centralWidget->setDisabled(true);
 }

@@ -49,6 +49,9 @@
    <property name="text">
     <string>&amp;Nouveau</string>
    </property>
+   <property name="statusTip">
+    <string>Démarrer une nouvelle partie</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
@@ -60,6 +63,9 @@
    <property name="text">
     <string>&amp;Fermer</string>
    </property>
+   <property name="statusTip">
+    <string>Fermer la partie en cours</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
    </property>
@@ -68,6 +74,9 @@
    <property name="text">
     <string>&amp;Quitter</string>
    </property>
+   <property name="statusTip">
+    <string>Quitter le jeu</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
    </property>
@@ -75,6 +84,9 @@
   <action name="action_Ouvrir">
    <property name="text">
     <string>&amp;Ouvrir</string>
+   </property>
+   <property name="statusTip">
+    <string>Charger un niveau depuis un fichier de sauvegarde</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
