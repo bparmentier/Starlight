@@ -35,3 +35,6 @@ Makefile*
 # Qt Ctreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+
+# Documentation
+html
