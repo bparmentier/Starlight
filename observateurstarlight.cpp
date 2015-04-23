@@ -132,10 +132,12 @@ void ObservateurStarlight::drawMirrors()
 
 void ObservateurStarlight::drawLightRays()
 {
-    QPen lightRayStyle{QBrush{Qt::red}, 1};
     nvs::Segment line;
     for (unsigned i = 0; i < m_level->boundedRays().size(); i++) {
         line = m_level->boundedRays().at(i).first;
+        int waveLength = m_level->boundedRays().at(i).second;
+        QPen lightRayStyle{QBrush{QColor{waveLength % 256, waveLength % 150, waveLength % 200}}, 2
+        };
         m_lightRays.push_back(
                     this->addLine(line.first().x(), line.first().y(),
                                   line.second().x(), line.second().y(),
