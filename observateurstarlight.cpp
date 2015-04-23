@@ -5,7 +5,7 @@
 #include "mainwindowstarlight.h"
 
 ObservateurStarlight::ObservateurStarlight(nvs::Level *level, QWidget *parent) :
-    QGraphicsScene{parent}, m_level{level}
+    QGraphicsScene{parent}, m_level{level}, laserSound{":laser_on.wav"}
 {
     m_level->attacher(this);
     this->setSceneRect(0, 0, m_level->width(), m_level->height());
@@ -173,10 +173,12 @@ void ObservateurStarlight::gameInfo(){
     if (m_level->won() || m_level->lost()) {
         QString msg;
         if (m_level->won()) {
+            QSound::play(":level_won.wav");
             m_target->setBrush(QBrush(Qt::green));
             msg = "Vous avez gagné, bravo !";
         }
         if (m_level->lost()) {
+            QSound::play(":explosion.wav");
             for (unsigned i = 0; i < m_bombs.size(); i++) {
                 if (m_bombs.at(i).second->enlightened())
                     m_bombs.at(i).first->setBrush(QBrush(QColor(Qt::red)));
@@ -200,10 +202,14 @@ void ObservateurStarlight::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (m_level->source().isOn()) {
             m_level->source().switchOff();
             m_source->setBrush(QBrush(Qt::darkGreen));
+            if (!laserSound.isFinished()) {
+                laserSound.stop();
+            }
             removeLightRays();
         } else {
             m_level->source().switchOn();
             m_source->setBrush(QBrush(Qt::green));
+            laserSound.play();
             drawLightRays();
             gameInfo();
         }

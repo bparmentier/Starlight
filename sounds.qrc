@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="laser_on.wav">resources/sounds/laser_on.wav</file>
+        <file alias="explosion.wav">resources/sounds/explosion.wav</file>
+        <file alias="level_won.wav">resources/sounds/level_won.wav</file>
+    </qresource>
+</RCC>

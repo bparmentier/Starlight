@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -58,4 +58,7 @@ FORMS    += mainwindowstarlight.ui \
     levelchooserdialog.ui
 
 RESOURCES += \
-    maps.qrc
+    maps.qrc \
+    sounds.qrc
+
+DISTFILES +=

@@ -11,6 +11,7 @@
 #include <QPainter>
 #include <QtGui>
 #include <QGraphicsItem>
+#include <QSound>
 
 /*!
  * \brief The ObservateurStarlight class
@@ -23,6 +24,7 @@ class ObservateurStarlight : public QGraphicsScene, public Observateur
     std::vector<std::pair<QGraphicsLineItem *, nvs::Mirror *>> m_mirrors;
     std::vector<std::pair<QGraphicsEllipseItem *, const nvs::Bomb *>> m_bombs;
     std::vector<QGraphicsLineItem *> m_lightRays;
+    QSound laserSound;
 
 public:
 
