@@ -136,6 +136,7 @@ void MainWindowStarlight::newGame()
 
     QString fileName(":level_");
     fileName.append(QString::number(lcd.getLevel()));
+    fileName.append(".mapl");
     try {
         readMap(fileName);
         setObserver();

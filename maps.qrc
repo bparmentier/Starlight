@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="level_1">resources/maps/level_1.mapl</file>
-        <file alias="level_2">resources/maps/level_2.mapl</file>
-        <file alias="level_3">resources/maps/level_3.mapl</file>
-        <file alias="level_4">resources/maps/level_4.mapl</file>
-        <file alias="level_5">resources/maps/level_5.mapl</file>
+        <file alias="level_1.mapl">resources/maps/level_1.mapl</file>
+        <file alias="level_2.mapl">resources/maps/level_2.mapl</file>
+        <file alias="level_3.mapl">resources/maps/level_3.mapl</file>
+        <file alias="level_4.mapl">resources/maps/level_4.mapl</file>
+        <file alias="level_5.mapl">resources/maps/level_5.mapl</file>
     </qresource>
 </RCC>
