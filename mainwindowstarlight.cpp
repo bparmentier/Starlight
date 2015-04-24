@@ -66,46 +66,50 @@ void MainWindowStarlight::readMap(QString fileName)
 
     QTextStream in(&mapFile);
 
-    /* first line: width and height */
-    in >> mapWidth >> mapHeight;
+    try {
+        /* first line: width and height */
+        in >> mapWidth >> mapHeight;
 
-    /* map components */
-    while (!in.atEnd()) {
-        in >> element;
-        switch (element) {
-        case 'S':
-            in >> x >> y >> edge >> alpha >> wavelength;
-            source = nvs::SourceOfLight{x, y, edge, alpha, wavelength};
-            break;
-        case 'D':
-            in >> x >> y >> edge;
-            target = nvs::Target{x, y, edge};
-            break;
-        case 'C':
-            in >> x >> y >> rad >> mod;
-            crystals.push_back(nvs::Crystal{x, y, rad, mod});
-            break;
-        case 'L':
-            in >> x >> y >> width >> height >> wlmin >> wlmax;
-            lenses.push_back(nvs::Lens{x, y, width, height, wlmax, wlmin});
-            break;
-        case 'W':
-            in >> x1 >> y1 >> x2 >> y2;
-            walls.push_back(nvs::Wall{x1, y1, x2, y2});
-            break;
-        case 'N':
-            in >> x >> y >> rad;
-            bombs.push_back(nvs::Bomb{x, y, rad});
-            break;
-        case 'M':
-            in >> x >> y >> length >> alpha;
-            mirrors.push_back(nvs::Mirror{x, y, length, alpha});
-            break;
+        /* map components */
+        while (!in.atEnd()) {
+            in >> element;
+            switch (element) {
+            case 'S':
+                in >> x >> y >> edge >> alpha >> wavelength;
+                source = nvs::SourceOfLight{x, y, edge, alpha, wavelength};
+                break;
+            case 'D':
+                in >> x >> y >> edge;
+                target = nvs::Target{x, y, edge};
+                break;
+            case 'C':
+                in >> x >> y >> rad >> mod;
+                crystals.push_back(nvs::Crystal{x, y, rad, mod});
+                break;
+            case 'L':
+                in >> x >> y >> width >> height >> wlmin >> wlmax;
+                lenses.push_back(nvs::Lens{x, y, width, height, wlmax, wlmin});
+                break;
+            case 'W':
+                in >> x1 >> y1 >> x2 >> y2;
+                walls.push_back(nvs::Wall{x1, y1, x2, y2});
+                break;
+            case 'N':
+                in >> x >> y >> rad;
+                bombs.push_back(nvs::Bomb{x, y, rad});
+                break;
+            case 'M':
+                in >> x >> y >> length >> alpha;
+                mirrors.push_back(nvs::Mirror{x, y, length, alpha});
+                break;
+            }
         }
+        mapFile.close();
+        m_level = new nvs::Level{mapWidth, mapHeight, source, target,
+                walls, mirrors, lenses, crystals, bombs};
+    } catch (std::invalid_argument &e) {
+        throw std::runtime_error("Fichier malformé");
     }
-    mapFile.close();
-    m_level = new nvs::Level{mapWidth, mapHeight, source, target,
-            walls, mirrors, lenses, crystals, bombs};
 }
 
 void MainWindowStarlight::newGame()
