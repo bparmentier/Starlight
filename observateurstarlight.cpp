@@ -19,24 +19,6 @@ ObservateurStarlight::ObservateurStarlight(nvs::Level *level, QWidget *parent) :
 
 ObservateurStarlight::~ObservateurStarlight()
 {
-    for (unsigned i = 0; i < m_lightRays.size(); i++) {
-        delete m_lightRays.at(i);
-        m_lightRays.at(i) = nullptr;
-    }
-    m_lightRays.clear();
-
-    for (unsigned i = 0; i < m_mirrors.size(); i++) {
-        delete m_mirrors.at(i).first;
-        m_mirrors.at(i).first = nullptr;
-    }
-    m_mirrors.clear();
-
-    delete m_target;
-    m_target = nullptr;
-
-    delete m_source;
-    m_source = nullptr;
-
     m_level->detacher(this);
 }
 

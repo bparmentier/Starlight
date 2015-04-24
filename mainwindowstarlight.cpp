@@ -28,8 +28,6 @@ MainWindowStarlight::~MainWindowStarlight()
     m_gameObs = nullptr;
     delete m_level;
     m_level = nullptr;
-    delete m_action_aide;
-    m_action_aide = nullptr;
     delete ui;
     ui = nullptr;
 }
