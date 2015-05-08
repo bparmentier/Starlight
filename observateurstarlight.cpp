@@ -203,6 +203,7 @@ void ObservateurStarlight::keyPressEvent(QKeyEvent *event)
     if (!this->selectedItems().isEmpty() && this->selectedItems().size() == 1) {
         QGraphicsLineItem *mirror = (QGraphicsLineItem *) this->selectedItems().first();
         nvs::Mirror *element = m_mirrors.at(findElement(mirror)).second;
+        removeLightRays();
         if (event->key() == Qt::Key_Up) {
             mirror->setRotation(mirror->rotation() - 1);
             element->rotate(+((1 * M_PI) / 180));
@@ -211,8 +212,6 @@ void ObservateurStarlight::keyPressEvent(QKeyEvent *event)
             mirror->setRotation(mirror->rotation() + 1);
             element->rotate(-((1 * M_PI) / 180));
         }
-        removeLightRays();
-        rafraichir(m_level);
         gameInfo();
     }
 }
